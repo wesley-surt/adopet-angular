@@ -1,0 +1,26 @@
+{
+  "login": [
+    {
+      "id": 1,
+      "fotoUrl": "",
+      "name": "Mario",
+      "userName": "mario",
+      "email": "mario@gmail.com",
+      "password": "mario123",
+      "telefone": "31988884444",
+      "cidade": "contagem",
+      "sobre": "Gosto de pets. Quero adotar um."
+    },
+    {
+      "id": 2,
+      "fotoUrl": "",
+      "name": "Luid",
+      "userName": "luid",
+      "email": "luid@gmail.com",
+      "password": "luid123",
+      "telefone": "31966663333",
+      "cidade": "belo horizonte",
+      "sobre": "Amo estar com animais. Eles são uns amores."
+    }
+  ]
+}

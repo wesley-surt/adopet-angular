@@ -1,0 +1,85 @@
+{
+  "pets": [
+    {
+      "id": 0,
+      "photoUrl": "./img/Dunga.png",
+      "name": "Dunga",
+      "age": "2 anos",
+      "size": "pequeno",
+      "characteristics": "calmo e educado",
+      "city": "Rio De Janeiro (RJ)"
+    },
+    {
+      "id": 1,
+      "photoUrl": "./img/Felícia.png",
+      "name": "Felícia",
+      "age": "3 meses",
+      "size": "porte pequeno",
+      "characteristics": "ativa e carinhosa",
+      "city": "Nova Iguaçu (RJ)"
+    },
+    {
+      "id": 2,
+      "photoUrl": "./img/sirius.png",
+      "name": "Sírius",
+      "age": "6 meses",
+      "size": "porte grande",
+      "characteristics": "ativo e educado",
+      "city": "Duque De Caxias (RJ)"
+    },
+    {
+      "id": 3,
+      "photoUrl": "./img/Fiona.png",
+      "name": "Fiona",
+      "age": "3 anos",
+      "size": "porte pequeno",
+      "characteristics": "calma e carinhosa",
+      "city": "São Gonçalo (RJ)"
+    },
+    {
+      "id": 4,
+      "photoUrl": "./img/Sid.png",
+      "name": "Sid",
+      "age": "8 meses",
+      "size": "porte médio/grande",
+      "characteristics": "brincalhão e amigável",
+      "city": "Rio De Janeiro (RJ)"
+    },
+    {
+      "id": 5,
+      "photoUrl": "./img/Yoda.png",
+      "name": "Yoda",
+      "age": "1 ano",
+      "size": "porte médio",
+      "characteristics": "ativo e carinhoso",
+      "city": "Nova Iguaçu (RJ)"
+    },
+    {
+      "id": 6,
+      "photoUrl": "./img/Lua.png",
+      "name": "Luna",
+      "age": "6 meses",
+      "size": "porte médio",
+      "characteristics": "ativa e carinhosa",
+      "city": "Duque De Caxias (RJ)"
+    },
+    {
+      "id": 7,
+      "photoUrl": "./img/Amora.png",
+      "name": "Amora",
+      "age": "45 dias",
+      "size": "porte grande",
+      "characteristics": "calma e carinhosa",
+      "city": "São Gonçalo (RJ)"
+    },
+    {
+      "id": 8,
+      "photoUrl": "./img/Zelda.png",
+      "name": "Zelda",
+      "age": "5 meses",
+      "size": "porte médio",
+      "characteristics": "ativo e amigável",
+      "city": "Rio De Janeiro (RJ)"
+    }
+  ]
+}
