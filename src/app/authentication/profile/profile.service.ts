@@ -3,7 +3,7 @@ import { TokenService } from '../token/token.service';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Profile } from './profile';
 import { environment } from 'src/environment/environment';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { b64_to_utf8 } from '../../utils/encode-decode-base64';
 import { AbstractLocalStorage } from '../localStorage/local-storage-abstract';
 import { ProfileClass } from './profile-class';
@@ -15,13 +15,18 @@ const API = 'http://localhost:3000';
 })
 export class ProfileService extends AbstractLocalStorage<Object> {
 
+  private profileSubject = new BehaviorSubject<any>({});
+
   constructor(
     private httpClient: HttpClient,
   ) {
     super(localStorage);
+    if(this.isLoggedInLocalStorage('profile')) {
+      this.updateProfile();
+    };
   }
 
-  getProfile(id: string, token: string) {
+  public getProfile(id: string, token: string): Observable<Profile> {
     // const id = this.decodeId(encodedId);
 
     const headers = new HttpHeaders().append('x-access-token', token);
@@ -31,8 +36,19 @@ export class ProfileService extends AbstractLocalStorage<Object> {
     });
   };
 
-  saveProfile(profile: Profile): void {
-    const profileClass = new ProfileClass(
+  public saveProfile(profile: Profile): void {
+    const profileClass = this.createProfileClass(profile);
+
+    this.saveToLocalStorage('profile', JSON.stringify(profileClass));
+    this.profileSubject.next(profileClass);
+  };
+
+  public returnProfile(): Observable<ProfileClass> {
+    return this.profileSubject.asObservable();
+  }
+
+  private createProfileClass(profile: Profile): ProfileClass {
+    return new ProfileClass(
       profile._id,
       profile.photo,
       profile.name,
@@ -40,7 +56,11 @@ export class ProfileService extends AbstractLocalStorage<Object> {
       profile.about,
       profile.telephone
     );
+  }
 
-    this.saveToLocalStorage('profile', JSON.stringify(profileClass));
-  };
+  private updateProfile(): void {
+    const profile = JSON.parse(this.getFromLocalStorage('profile'));
+    const profileClass = this.createProfileClass(profile)
+    this.profileSubject.next(profileClass);
+  }
 }
