@@ -20,10 +20,10 @@ const routes: Routes = [
   {
     path: 'message',
     component: MessageComponent,
-    // canActivate: [
-    //   UnselectedAnimalGuard.canActivate,
-    //   IncompleteProfileGuard.canActivate
-    // ]
+    canActivate: [
+      // UnselectedAnimalGuard.canActivate,
+      IncompleteProfileGuard.canActivate
+    ]
   },
   {
     path: 'profile',

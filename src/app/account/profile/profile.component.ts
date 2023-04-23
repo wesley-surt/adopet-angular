@@ -19,6 +19,8 @@ export class ProfileComponent implements OnInit {
       const profileIncomplete = this.activatedRoute.snapshot.data['profileIncomplete'];
       if(profileIncomplete === true) {
         console.log(profileIncomplete, 'please, complete your profile');
+      } else {
+        console.log(profileIncomplete, 'Profile completed. All ok');
       }
     })
   }

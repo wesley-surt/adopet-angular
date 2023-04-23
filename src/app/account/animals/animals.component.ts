@@ -26,6 +26,7 @@ export class AnimalsComponent implements OnInit {
       const allAnimals = animalsResolver.allAnimals as Animals;
 
       this.animals = new AllAnimalsClass(allAnimals);
+      console.log(this.animals.getAllAnimals);
       // this.profileService.returnProfile().subscribe((profile) => {
       //     console.log(profile);
       // });

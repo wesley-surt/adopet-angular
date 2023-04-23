@@ -16,9 +16,7 @@ export namespace IncompleteProfileResolver {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ) => {
-    const tokenService = inject(TokenService);
     const profileService = inject(ProfileService);
-
     let incomplete = false;
     
     profileService.returnProfile().subscribe((profile) => {
