@@ -13,7 +13,7 @@ const routes: Routes = [
     path: '',
     component: AnimalsComponent,
     resolve: {
-      animais: AnimalsResolver.resolve
+      animals: AnimalsResolver.resolve
     }
   },
   {

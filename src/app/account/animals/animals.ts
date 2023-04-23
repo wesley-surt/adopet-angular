@@ -8,4 +8,8 @@ export interface Animal {
     city: string
 };
 
-export type Animals = Array<Animal>;
+export interface Animals {
+  allAnimals: Animal[];
+}
+
+// export type Animals = Array<Animal>;

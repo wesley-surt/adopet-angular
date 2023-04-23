@@ -2,10 +2,10 @@ import animals from '../models/Animal.js';
 
 export class AnimalsController {
 
-  static getAnimals = (req, res) => {
+  static getAnimals = async (req, res) => {
 
     try {
-      const allAnimals = animals.find();
+      const allAnimals = await animals.find();
       if (allAnimals)
         return res.status(200).json({ allAnimals });
 
