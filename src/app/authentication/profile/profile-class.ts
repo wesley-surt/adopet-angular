@@ -18,27 +18,31 @@ export class ProfileClass {
     this.telephone = telephone;
   }
 
-  get getId() {
+  get getLength(): number {
+    return 6;
+  }
+
+  get getId(): string {
     return this._id;
   }
 
-  get getPhoto() {
+  get getPhoto(): string {
     return this.photo;
   }
 
-  get getName() {
+  get getName(): string {
     return this.name;
   }
 
-  get getCity() {
+  get getCity(): string {
     return this.city;
   }
 
-  get getAbout() {
+  get getAbout(): string {
     return this.about;
   }
 
-  get getTelephone() {
+  get getTelephone(): string {
     return this.telephone;
   }
 }

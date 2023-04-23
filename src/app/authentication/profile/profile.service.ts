@@ -49,12 +49,12 @@ export class ProfileService extends AbstractLocalStorage<Object> {
 
   private createProfileClass(profile: Profile): ProfileClass {
     return new ProfileClass(
-      profile._id,
-      profile.photo,
-      profile.name,
-      profile.city,
-      profile.about,
-      profile.telephone
+      profile._id ?? '',
+      profile.photo ?? '',
+      profile.name ?? '',
+      profile.city ?? '',
+      profile.about ?? '',
+      profile.telephone ?? ''
     );
   }
 

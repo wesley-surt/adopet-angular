@@ -12,7 +12,7 @@ import { AnimalsService } from '../animals.service';
 
 export namespace AnimalsResolver {
 
-  export const resolve: ResolveFn<Animals> = (
+  export const resolver: ResolveFn<Animals> = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
     ): Observable<Animals> => {
