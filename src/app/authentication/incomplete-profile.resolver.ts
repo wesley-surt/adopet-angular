@@ -32,12 +32,3 @@ export namespace IncompleteProfileResolver {
     return incomplete;
   }
 }
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class IncompleteProfileResolver implements Resolve<boolean> {
-//   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-//     return of(true);
-//   }
-// }

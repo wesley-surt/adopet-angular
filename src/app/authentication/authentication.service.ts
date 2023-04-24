@@ -1,4 +1,4 @@
-import { ResponseAuthentication } from './authentication-response';
+import { ResponseAuthentication } from './response-authentication';
 import { ProfileService } from './profile/profile.service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';

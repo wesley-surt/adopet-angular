@@ -31,14 +31,3 @@ export namespace IncompleteProfileGuard {
       return incomplete;
   }
 }
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class IncompleteProfileGuard implements CanLoad {
-//   canLoad(
-//     route: Route,
-//     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-//     return true;
-//   }
-// }

@@ -12,3 +12,12 @@ export class UnselectedAnimalGuard implements CanLoad {
     return true;
   }
 }
+
+/** return authService.checkLogin().pipe(
+              map(() => true),
+              catchError(() => {
+                  router.navigate(['route-to-fallback-page']);
+                  return of(false);
+              }
+          )
+      ); */

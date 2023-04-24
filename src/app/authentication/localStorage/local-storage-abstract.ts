@@ -1,11 +1,14 @@
+import { EncodeDecodeBase64Service } from './../../utils/encode-decode-base64.service';
 export abstract class AbstractLocalStorage<T> {
 
   constructor(
-    private localStorage: Storage
+    private localStorage: Storage,
+    // private base64: EncodeDecodeBase64Service
   ) {};
 
   saveToLocalStorage(key: string, value: T): void {
-    this.localStorage.setItem(key, `${value}`);
+    const encodedValue = EncodeDecodeBase64Service.utf8_to_b64(`${value}`);
+    this.localStorage.setItem(key, encodedValue);
   };
 
   removeFromLocalStorage(key: string): void {
@@ -13,7 +16,8 @@ export abstract class AbstractLocalStorage<T> {
   };
 
   getFromLocalStorage(key: string): string {
-    return this.localStorage.getItem(key) ?? '';
+    const decodeValue = this.localStorage.getItem(key) ?? '';
+    return EncodeDecodeBase64Service.b64_to_utf8(decodeValue);
   };
 
   updateLocalStorage(key: string, value: T): void {

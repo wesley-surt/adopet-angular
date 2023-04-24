@@ -12,7 +12,6 @@ export namespace AuthLoginGuard {
       const router = inject(Router);
 
       if(!authService.checkLogin()) {
-        // alert('não possui login');
         router.navigate(['home/login']);
         return false;
       };
@@ -38,12 +37,3 @@ export namespace AuthLoginGuard {
     return true;
   };
 }
-
-/** return authService.checkLogin().pipe(
-              map(() => true),
-              catchError(() => {
-                  router.navigate(['route-to-fallback-page']);
-                  return of(false);
-              }
-          )
-      ); */

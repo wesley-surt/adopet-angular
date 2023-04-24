@@ -14,23 +14,23 @@ const routes: Routes = [
     path: '',
     component: AnimalsComponent,
     resolve: {
-      animals: AnimalsResolver.resolver
+      // UnselectedAnimalGuard.canActivate,
+      animals: AnimalsResolver.resolver,
     }
   },
   {
     path: 'message',
     component: MessageComponent,
     canActivate: [
-      // UnselectedAnimalGuard.canActivate,
-      IncompleteProfileGuard.canActivate
+      IncompleteProfileGuard.canActivate,
     ]
   },
   {
     path: 'profile',
     component: ProfileComponent,
     resolve: {
-      profileIncomplete: IncompleteProfileResolver.resolver
-    }
+        profileIncomplete: IncompleteProfileResolver.resolver
+      }
   },
 ]
 
