@@ -1,8 +1,9 @@
 import users from '../models/Users.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { environment } from '../../environment/env.js';
 
-const secret = 'ASdg84SDF58fds878F6sdfsdf564df45FDS';
+const secret = environment.SECRET_KEY ;
 
 class UsersController {
 

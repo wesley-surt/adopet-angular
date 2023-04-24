@@ -2,9 +2,9 @@ import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { ResponseAuthentication } from 'src/app/authentication/response-authentication';
-import { TokenService } from 'src/app/authentication/token/token.service';
-import { ProfileService } from 'src/app/authentication/profile/profile.service';
-import { Profile } from 'src/app/authentication/profile/profile';
+import { TokenService } from 'src/app/entities/token/token.service';
+import { ProfileService } from 'src/app/entities/profile/profile.service';
+import { Profile } from 'src/app/entities/profile/profile';
 
 const API = 'http://localhost:3000';
 

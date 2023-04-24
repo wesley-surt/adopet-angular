@@ -3,11 +3,11 @@ import {
   ActivatedRouteSnapshot,
   ResolveFn
 } from '@angular/router';
-import { TokenService } from './token/token.service';
+import { TokenService } from '../entities/token/token.service';
 import { inject } from '@angular/core';
-import { ProfileService } from './profile/profile.service';
+import { ProfileService } from '../entities/profile/profile.service';
 import { map, tap } from 'rxjs';
-import { ProfileClass } from './profile/profile-class';
+import { ProfileClass } from '../entities/profile/profile-class';
 
 
 export namespace IncompleteProfileResolver {
@@ -18,7 +18,7 @@ export namespace IncompleteProfileResolver {
   ) => {
     const profileService = inject(ProfileService);
     let incomplete = false;
-    
+
     profileService.returnProfile().subscribe((profile) => {
       if(
         profile.getPhoto === '' ||
@@ -28,7 +28,7 @@ export namespace IncompleteProfileResolver {
         profile.getTelephone === ''
         ) incomplete = true;
     });
-      
+
     return incomplete;
   }
 }

@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
-const secret = 'ASdg84SDF58fds878F6sdfsdf564df45FDS';
+import { environment } from '../../environment/env.js';
+
+const secret = environment.SECRET_KEY ;
 
 export default function checkTonken (req, res, next) {
   const authHeader = req.header('x-access-token');

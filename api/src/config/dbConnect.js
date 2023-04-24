@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
+import { environment } from '../../environment/env.js';
 
-mongoose.connect(`mongodb+srv://wesley:surtwesley@cluster0.0uuwmvs.mongodb.net/adopet`);
+const dbPassword = environment.DB_PASSWORD;
+const dbUser = environment.DB_USER;
+
+mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.0uuwmvs.mongodb.net/adopet`);
 
 let db = mongoose.connection;
 

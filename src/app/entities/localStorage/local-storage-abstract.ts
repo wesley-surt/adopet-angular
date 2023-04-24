@@ -1,4 +1,4 @@
-import { EncodeDecodeBase64Service } from './../../utils/encode-decode-base64.service';
+import { EncodeDecodeBase64Service } from '../../utils/encode-decode-base64.service';
 export abstract class AbstractLocalStorage<T> {
 
   constructor(

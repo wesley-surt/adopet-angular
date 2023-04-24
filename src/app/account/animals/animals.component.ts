@@ -1,10 +1,10 @@
-import { ProfileService } from 'src/app/authentication/profile/profile.service';
+import { ProfileService } from 'src/app/entities/profile/profile.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Animals } from './animals';
 import { AllAnimalsClass } from './models/allAnimalsClass';
 import { tap } from 'rxjs';
-import { ProfileClass } from 'src/app/authentication/profile/profile-class';
+import { ProfileClass } from 'src/app/entities/profile/profile-class';
 
 @Component({
   selector: 'app-animals',

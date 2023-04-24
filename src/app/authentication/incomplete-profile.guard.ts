@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, CanLoad, Route, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ProfileService } from './profile/profile.service';
+import { ProfileService } from '../entities/profile/profile.service';
 
 
 export namespace IncompleteProfileGuard {
@@ -11,7 +11,7 @@ export namespace IncompleteProfileGuard {
     ) => {
       const profileService = inject(ProfileService);
       let incomplete = true;
-      
+
       profileService.returnProfile().subscribe((profile) => {
         if(
           profile.getPhoto === '' ||
@@ -19,7 +19,7 @@ export namespace IncompleteProfileGuard {
           profile.getCity === '' ||
           profile.getAbout === '' ||
           profile.getTelephone === ''
-          ) { 
+          ) {
             incomplete = false;
             console.log(`
             It is not allowed to contact the institution without
@@ -27,7 +27,7 @@ export namespace IncompleteProfileGuard {
             `)
           };
       });
-        
+
       return incomplete;
   }
 }

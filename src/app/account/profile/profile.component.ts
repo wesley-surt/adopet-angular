@@ -1,4 +1,4 @@
-import { ProfileService } from 'src/app/authentication/profile/profile.service';
+import { ProfileService } from 'src/app/entities/profile/profile.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private profileService: ProfileService
