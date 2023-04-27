@@ -17,9 +17,7 @@ export class AuthenticationService {
 
   constructor(
     private httpClient: HttpClient,
-    private tokenService: TokenService,
     private profileService: ProfileService,
-    private router: Router
   ) {}
 
   authenticate(email: string, password: string): Observable<HttpResponse<Object>> {
@@ -33,26 +31,6 @@ export class AuthenticationService {
         observe: 'response'
       }
     )
-  }
-
-  request(email: string, password: string): Observable<HttpResponse<Object>> {
-    return this.httpClient.post(
-      `${API}/users/login`,
-      {
-        email: email,
-        password: password
-      },
-      {
-        observe: 'response'
-      }
-    ).pipe(
-      tap((res) => {
-        const authResponse = res.body as ResponseAuthentication;
-
-        this.tokenService.saveToLocalStorage('token', authResponse.token);
-        this.profileService.getProfile(authResponse.profileId, authResponse.token);
-      })
-    );
   }
 
   checkLogin() {

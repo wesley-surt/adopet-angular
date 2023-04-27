@@ -1,3 +1,4 @@
+import profiles from '../models/Profile.js';
 import users from '../models/Users.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -94,6 +95,19 @@ class UsersController {
       return res.status(200).json({ user });
     };
   };
+
+  static updateProfileField = async (userId, res) => {
+
+    const profileDb = await profiles.findOne({ user: userId });
+    if(profileDb) {
+
+      users.findByIdAndUpdate(userId, { profile: profileDb.id });
+      res.status(200).json({ message: 'Profile saved successful.' });
+
+    } else {
+      res.status(500).json({ message: 'ERROR: Servidor failed'});
+    };
+  }
 };
 
 export default UsersController;

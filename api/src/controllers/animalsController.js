@@ -17,7 +17,9 @@ export class AnimalsController {
   static getAnimal = async (req, res) => {
     try {
       const {id} = req.params;
-      const animal = await animals.findById(id);
+      const animal = await animals
+        .findById(id)
+        .populate('advertiser');
 
       if(animal) {
         return res.status(200).json( animal );

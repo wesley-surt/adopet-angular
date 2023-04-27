@@ -34,6 +34,7 @@ export namespace AuthLoginGuard {
         router.navigate(['account']);
         return true;
       };
+
     return true;
   };
 }

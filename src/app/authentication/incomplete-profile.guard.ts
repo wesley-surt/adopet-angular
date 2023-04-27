@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, CanLoad, Route, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivateFn, Route, RouterStateSnapshot } from '@angular/router';
 import { ProfileService } from '../entities/profile/profile.service';
+import { Subscription } from 'rxjs';
 
 
 export namespace IncompleteProfileGuard {
@@ -10,9 +10,10 @@ export namespace IncompleteProfileGuard {
     state: RouterStateSnapshot
     ) => {
       const profileService = inject(ProfileService);
+      let profileSubscription: Subscription;
       let incomplete = true;
 
-      profileService.returnProfile().subscribe((profile) => {
+      profileSubscription = profileService.returnProfile().subscribe((profile) => {
         if(
           profile.getPhoto === '' ||
           profile.getName === '' ||
@@ -27,6 +28,7 @@ export namespace IncompleteProfileGuard {
             `)
           };
       });
+      profileSubscription.unsubscribe();
 
       return incomplete;
   }

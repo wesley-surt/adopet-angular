@@ -8,7 +8,8 @@ const animalsSchema = mongoose.Schema(
     age: { type: String },
     size: { type: String },
     characteristics: { type: String },
-    city: { type: String, required: true }
+    city: { type: String, required: true },
+    advertiser: { type: string, required: true },
   }
 )
 

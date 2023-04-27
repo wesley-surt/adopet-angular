@@ -6,6 +6,6 @@ const router = express.Router();
 
 router
   .get('/animals', animalsController.getAllAnimals)
-  .get('/animals/:id', animalsController.getAnimal);
+  .get('/animals/:id', checkTonken, animalsController.getAnimal);
 
 export default router;
