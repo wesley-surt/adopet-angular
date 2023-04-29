@@ -6,6 +6,7 @@ const router = express.Router();
 
 router
   .get('/animals', animalsController.getAllAnimals)
-  .get('/animals/:id', checkTonken, animalsController.getAnimal);
+  .get('/animals/:id', checkTonken, animalsController.getAnimal)
+  .post('/animals/register', animalsController.register);
 
 export default router;

@@ -5,6 +5,7 @@ import checkToken from '../authentication/token.js';
 const router = express.Router();
 
 router
-  .get('/profile/:id', checkToken, ProfilesController.getProfile);
+  .get('/profile/:id', checkToken, ProfilesController.getProfile)
+  .get('/profile/register', checkToken, ProfilesController.register);
 
 export default router;

@@ -17,14 +17,14 @@ const API = 'http://localhost:3000';
 export class LoginComponent {
   public email!: string;
   public password!: string;
+  private authSubscription!: Subscription;
+  private profSubscription!: Subscription;
 
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
     private tokenService: TokenService,
     private profileService: ProfileService,
-    private authSubscription: Subscription,
-    private profileSubscription: Subscription,
   ) {}
 
   login() {
@@ -34,7 +34,7 @@ export class LoginComponent {
         const authResponse = res.body as ResponseAuthentication;
 
         this.tokenService.saveToLocalStorage('token', authResponse.token);
-        this.profileSubscription = this.profileService.getProfile(authResponse.profileId, authResponse.token)
+        this.profSubscription = this.profileService.getProfile(authResponse.profileId, authResponse.token)
         .subscribe((profile: Profile) => {
 
           this.profileService.saveProfile(profile);
@@ -43,11 +43,8 @@ export class LoginComponent {
         });
       });
 
-      this.authSubscription.unsubscribe();
-      this.profileSubscription.unsubscribe();
-
     } catch (err) {
       console.log(err);
-    }
+    };
   }
 }

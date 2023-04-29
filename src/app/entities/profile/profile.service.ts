@@ -29,11 +29,7 @@ export class ProfileService extends AbstractLocalStorage<Object> {
   public getProfile(id: string, token: string): Observable<Profile> {
     // const id = this.decodeId(encodedId);
 
-    const headers = new HttpHeaders().append('x-access-token', token);
-    return this.httpClient.get<Profile>(`${API}/profile/${id}`,
-    {
-      headers
-    });
+    return this.httpClient.get<Profile>(`${API}/profile/${id}`);
   };
 
   public saveProfile(profile: Profile): void {

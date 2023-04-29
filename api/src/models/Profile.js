@@ -7,7 +7,8 @@ const profileSchema = mongoose.Schema(
     name: { type: String, required: true },
     city: { type: String, required: true },
     about: { type: String },
-    telephone: { type: String, required: true }
+    telephone: { type: String, required: true },
+    userId: { type: String }
   }
 );
 

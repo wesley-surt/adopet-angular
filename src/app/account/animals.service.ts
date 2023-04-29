@@ -18,8 +18,8 @@ export class AnimalsService {
   ) {}
 
   getAnimals(): Observable<Animals> {
-    const token = this.tokenService.getFromLocalStorage('token');
-    const headers = new HttpHeaders().append('x-access-token', token);
-    return this.httpClient.get<Animals>(`${API}/animals`, { headers });
+    // const token = this.tokenService.getFromLocalStorage('token');
+    // const headers = new HttpHeaders().append('x-access-token', token);
+    return this.httpClient.get<Animals>(`${API}/animals`);
   }
 }

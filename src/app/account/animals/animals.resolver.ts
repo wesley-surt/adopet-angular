@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import {
-  Router, Resolve,
+  Router,
   RouterStateSnapshot,
   ActivatedRouteSnapshot,
   ResolveFn

@@ -6,10 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CabecalhoComponent } from './components/cabecalho/cabecalho.component';
 import { RodapeComponent } from './components/rodape/rodape.component';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @NgModule({
-  declarations: [ AppComponent, CabecalhoComponent, RodapeComponent, ],
-  imports: [ BrowserModule, AppRoutingModule, HttpClientModule ],
+  declarations: [ AppComponent, CabecalhoComponent, RodapeComponent ],
+  imports: [ BrowserModule, AppRoutingModule, HttpClientModule, AuthenticationModule ],
   providers: [],
   bootstrap: [ AppComponent ]
 })

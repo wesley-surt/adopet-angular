@@ -1,3 +1,36 @@
-<input [(ngModel)]="email" placeholder="email">
-<input [(ngModel)]="password" placeholder="password">
-<button (click)="login()">submit</button>
+<form class="" (ngSubmit)="login()" #loginForm="ngForm">
+  <div>
+    <input
+    class=""
+    [(ngModel)]="email"
+    placeholder="email"
+    #fieldEmail="ngModel"
+    name="email"
+    required>
+
+    <app-message
+    message="Required email"
+    *ngIf="fieldEmail.invalid && fieldEmail.touched">
+    </app-message>
+  </div>
+
+  <div>
+    <input
+    type="password"
+    class=""
+    [(ngModel)]="password"
+    placeholder="password"
+    #fieldPassword="ngModel"
+    name="password"
+    required>
+
+    <app-message
+    message="Required senha"
+    *ngIf="fieldPassword.invalid && fieldPassword.touched">
+    </app-message>
+  </div>
+
+  <button
+  (click)="login()"
+  [disabled]="loginForm.invalid">Login</button>
+</form>
