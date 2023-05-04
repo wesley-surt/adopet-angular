@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import profiles from '../models/Profile.js';
 import users from '../models/Users.js';
 import bcrypt from 'bcrypt';
@@ -45,7 +46,7 @@ class UsersController {
     };
   };
 
-  static registerUser =  async (req, res) => {
+  static register =  async (req, res) => {
     const { email, name, password, confirmPassword } = req.body;
 
     if(!email) {
@@ -96,18 +97,16 @@ class UsersController {
     };
   };
 
-  static updateProfileField = async (userId, res) => {
+  static exists = async (req, res) => {
 
-    const profileDb = await profiles.findOne({ user: userId });
-    if(profileDb) {
-
-      users.findByIdAndUpdate(userId, { profile: profileDb.id });
-      res.status(200).json({ message: 'Profile saved successful.' });
-
+    const {email} = req.body;
+    const user = await users.findOne({ email: email });
+    if(user) {
+      return res.status(200).json({ exists: true, message: 'Existing user' });
     } else {
-      res.status(500).json({ message: 'ERROR: Servidor failed'});
+      return res.status(404).json({ exists: false, message: 'User not found' });
     };
-  }
+  };
 };
 
 export default UsersController;

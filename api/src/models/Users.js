@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema(
     email: { type: String, required: true },
     name: { type: String, required: true },
     password: { type: String, required: true },
-    profile: { type: mongoose.Schema.Types.ObjectId, ref: 'profiles' }
+    profileId: { type: mongoose.Schema.Types.ObjectId, default: null, ref: 'profiles' }
   }
 );
 

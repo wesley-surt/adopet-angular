@@ -1,1 +1,60 @@
-<p>message works!</p>
+<form class="" [formGroup]="formGroupMessage" #formMessage="ngForm">
+  <div>
+    <input
+    class=""
+    placeholder=""
+    formControlName="name"
+    >
+
+    <app-message
+    message="Required name"
+    *ngIf="
+    formGroupMessage.get('name')?.errors?.['required'] &&
+    formGroupMessage.get('name')?.touched">
+    </app-message>
+  </div>
+
+  <div>
+    <input
+    class=""
+    placeholder=""
+    formControlName="telephone"
+    >
+
+    <app-message
+    message="Required telephone"
+    *ngIf="
+    formGroupMessage.get('telephone')?.errors?.['required'] &&
+    formGroupMessage.get('telephone')?.touched">
+    </app-message>
+  </div>
+
+  <div>
+    <input
+    class=""
+    placeholder=""
+    formControlName="nameAnimal"
+    >
+
+    <app-message
+    message="Required name animal"
+    *ngIf="
+    formGroupMessage.get('nameAnimal')?.errors?.['required'] &&
+    formGroupMessage.get('nameAnimal')?.touched">
+    </app-message>
+  </div>
+
+  <div>
+    <input
+    class=""
+    placeholder=""
+    formControlName="message">
+
+    <app-message
+    message="Required message"
+    *ngIf="
+    formGroupMessage.get('message')?.errors?.['required'] &&
+    formGroupMessage.get('message')?.touched">
+    </app-message>
+  </div>
+</form>

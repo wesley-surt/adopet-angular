@@ -18,8 +18,8 @@ export class CheckExistingUserService {
         switchMap((email) =>
           this.userService.userExists(email)
         ),
-        map((exists) => {
-          exists ? { userExists: true } : null;
+        map((res) => {
+          res.exists ? { userExists: true } : null;
         }),
         first()
       );

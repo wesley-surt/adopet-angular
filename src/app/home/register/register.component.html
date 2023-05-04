@@ -1,0 +1,95 @@
+<form class="" [formGroup]="formGroupRegister" (ngSubmit)="register" #formRegister="ngForm">
+  <div class="">
+    <input
+    class=""
+    formControlName="email"
+    placeholder="">
+
+    <app-message
+    message="Required email"
+    *ngIf="
+      formGroupRegister.get('email')?.errors?.['required'] &&
+      formGroupRegister.get('email')?.touched">
+    </app-message>
+
+    <app-message
+    message="Email with incorrect format"
+    *ngIf="
+      formGroupRegister.get('email')?.errors?.['email'] &&
+      formGroupRegister.get('email')?.touched">
+    </app-message>
+
+    <app-message
+    message="Email already registered. Please, use another."
+    *ngIf="
+      formGroupRegister.get('email')?.errors?.['required'] &&
+      formGroupRegister.get('email')?.touched">
+    </app-message>
+  </div>
+
+  <div class="">
+    <input
+    class=""
+    formControlName="name"
+    placeholder="">
+
+    <app-message
+    message="Required name"
+    *ngIf="
+      formGroupRegister.get('name')?.errors?.['required'] &&
+      formGroupRegister.get('name')?.touched">
+    </app-message>
+
+    <app-message
+    message="Quantity minimum characters 3"
+    *ngIf="
+      formGroupRegister.get('name')?.errors?.['minLength'] &&
+      formGroupRegister.get('name')?.touched">
+    </app-message>
+
+    <app-message
+    message="Please, digite your name in lowercase"
+    *ngIf="
+      formGroupRegister.get('name')?.errors?.['lowerCase'] &&
+      formGroupRegister.get('name')?.touched">
+    </app-message>
+  </div>
+
+  <div class="">
+    <input
+    type="password"
+    class=""
+    formControlName="password"
+    placeholder="">
+
+    <app-message
+    message="Required password"
+    *ngIf="
+      formGroupRegister.get('password')?.errors?.['required'] &&
+      formGroupRegister.get('password')?.touched">
+    </app-message>
+  </div>
+
+  <div class="">
+    <input
+    type="password"
+    class=""
+    formControlName="confirmPassword"
+    placeholder="">
+
+    <app-message
+    message="required confirm password"
+    *ngIf="
+      formGroupRegister.get('confirmPassword')?.errors?.['required'] &&
+      formGroupRegister.get('confirmPassword')?.touched">
+    </app-message>
+
+    <app-message
+    message="The passwords are not the same"
+    *ngIf="
+      formGroupRegister?.errors?.['differentPassword']">
+    </app-message>
+  </div>
+
+  <button>Enviar</button>
+</form>

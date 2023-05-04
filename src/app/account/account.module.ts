@@ -4,11 +4,15 @@ import { ProfileComponent } from './profile/profile.component';
 import { AnimalsComponent } from './animals/animals.component';
 import { AccountRoutingModule } from './account-routing.module';
 import { RouterModule } from '@angular/router';
+import { MessageModule } from '../components/message/message.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MessageComponent } from './message/message.component';
 
 
 
 @NgModule({
-  declarations: [ ProfileComponent, AnimalsComponent ],
-  imports: [ CommonModule, AccountRoutingModule, RouterModule ],
+  declarations: [ ProfileComponent, AnimalsComponent, MessageComponent ],
+  imports: [ CommonModule, AccountRoutingModule, RouterModule, FormsModule, ReactiveFormsModule, 
+    MessageModule ],
 })
 export class AccountModule { }

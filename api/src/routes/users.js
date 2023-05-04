@@ -6,7 +6,8 @@ const router = express.Router();
 
 router
   .get('/users/:id', checkTonken, UsersController.userQuery)
+  .post('/users/exists', UsersController.exists)
   .post('/users/login', UsersController.confirmsUser)
-  .post('/users/register', UsersController.registerUser)
+  .post('/users/register', UsersController.register)
 
 export default router;
