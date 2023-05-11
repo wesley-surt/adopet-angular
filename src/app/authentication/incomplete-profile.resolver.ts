@@ -3,11 +3,9 @@ import {
   ActivatedRouteSnapshot,
   ResolveFn
 } from '@angular/router';
-import { TokenService } from '../entities/token/token.service';
 import { inject } from '@angular/core';
 import { ProfileService } from '../entities/profile/profile.service';
-import { Subscription, map, tap } from 'rxjs';
-import { ProfileClass } from '../entities/profile/profile-class';
+import { Subscription } from 'rxjs';
 
 
 export namespace IncompleteProfileResolver {

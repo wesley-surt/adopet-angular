@@ -1,10 +1,11 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/entities/user/user.service';
 import { NewUser } from 'src/app/entities/user/new-user';
 import { checkPasswordsValidators } from './check-passwords.validators';
 import { allLowerCase } from './all-lower-case.validator';
+import { CheckExistingUserService } from './check-existing-user.service';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +20,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private existingUser: CheckExistingUserService,
     private router: Router
   ) {}
 
@@ -26,7 +28,8 @@ export class RegisterComponent implements OnInit {
     this.formGroupRegister = this.formBuilder.group({
       email: [
         '',
-        [Validators.email, Validators.required]
+        [Validators.email, Validators.required],
+        [this.existingUser.exists()]
       ],
       name: [
         '',

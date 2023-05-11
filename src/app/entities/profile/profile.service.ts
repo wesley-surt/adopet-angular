@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { TokenService } from '../token/token.service';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Profile } from './profile';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Profile, ProfileToSend } from './profile';
 import { environment } from 'src/environment/environment';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { b64_to_utf8 } from '../../utils/encode-decode-base64';
 import { AbstractLocalStorage } from '../localStorage/local-storage-abstract';
 import { ProfileClass } from './profile-class';
 
-const API = 'http://localhost:3000';
+const API = environment.apiURL;
 
 @Injectable({
   providedIn: 'root'
@@ -18,18 +16,16 @@ export class ProfileService extends AbstractLocalStorage<Object> {
   private profileSubject = new BehaviorSubject<any>({});
 
   constructor(
-    private httpClient: HttpClient,
+    private http: HttpClient,
   ) {
     super(localStorage);
     if(this.isLoggedInLocalStorage('profile')) {
-      this.updateProfile();
+      this.logInWithProfile();
     };
   }
 
-  public getProfile(id: string, token: string): Observable<Profile> {
-    // const id = this.decodeId(encodedId);
-
-    return this.httpClient.get<Profile>(`${API}/profile/${id}`);
+  public getProfile(id: string): Observable<Profile> {
+    return this.http.get<Profile>(`${API}/profile/${id}`);
   };
 
   public saveProfile(profile: Profile): void {
@@ -54,9 +50,18 @@ export class ProfileService extends AbstractLocalStorage<Object> {
     );
   }
 
-  private updateProfile(): void {
+  private logInWithProfile(): void {
     const profile = JSON.parse(this.getFromLocalStorage('profile'));
     const profileClass = this.createProfileClass(profile)
     this.profileSubject.next(profileClass);
+  }
+
+  public register(profileToSend: ProfileToSend): Observable<HttpResponse<Profile>> {
+    return this.http.post<Profile>(`${API}/profile/register`, {
+      profileToSend
+    },
+    {
+      observe: 'response'
+    })
   }
 }

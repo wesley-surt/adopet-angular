@@ -5,26 +5,25 @@
     formControlName="email"
     placeholder="">
 
-    <app-message
-    message="Required email"
+    <app-message-alert
+    messageAlert="Required email"
     *ngIf="
       formGroupRegister.get('email')?.errors?.['required'] &&
       formGroupRegister.get('email')?.touched">
-    </app-message>
+    </app-message-alert>
 
-    <app-message
-    message="Email with incorrect format"
+    <app-message-alert
+    messageAlert="Email with incorrect format"
     *ngIf="
       formGroupRegister.get('email')?.errors?.['email'] &&
       formGroupRegister.get('email')?.touched">
-    </app-message>
+    </app-message-alert>
 
-    <app-message
-    message="Email already registered. Please, use another."
+    <app-message-alert
+    messageAlert="Email already registered. Please, use another."
     *ngIf="
-      formGroupRegister.get('email')?.errors?.['required'] &&
-      formGroupRegister.get('email')?.touched">
-    </app-message>
+      formGroupRegister.get('email')?.errors?.['userExists']">
+    </app-message-alert>
   </div>
 
   <div class="">
@@ -33,26 +32,26 @@
     formControlName="name"
     placeholder="">
 
-    <app-message
-    message="Required name"
+    <app-message-alert
+    messageAlert="Required name"
     *ngIf="
       formGroupRegister.get('name')?.errors?.['required'] &&
       formGroupRegister.get('name')?.touched">
-    </app-message>
+    </app-message-alert>
 
-    <app-message
-    message="Quantity minimum characters 3"
+    <app-message-alert
+    messageAlert="Quantity minimum characters 3"
     *ngIf="
       formGroupRegister.get('name')?.errors?.['minLength'] &&
       formGroupRegister.get('name')?.touched">
-    </app-message>
+    </app-message-alert>
 
-    <app-message
-    message="Please, digite your name in lowercase"
+    <app-message-alert
+    messageAlert="Please, digite your name in lowercase"
     *ngIf="
       formGroupRegister.get('name')?.errors?.['lowerCase'] &&
       formGroupRegister.get('name')?.touched">
-    </app-message>
+    </app-message-alert>
   </div>
 
   <div class="">
@@ -62,12 +61,12 @@
     formControlName="password"
     placeholder="">
 
-    <app-message
-    message="Required password"
+    <app-message-alert
+    messageAlert="Required password"
     *ngIf="
       formGroupRegister.get('password')?.errors?.['required'] &&
       formGroupRegister.get('password')?.touched">
-    </app-message>
+    </app-message-alert>
   </div>
 
   <div class="">
@@ -77,18 +76,18 @@
     formControlName="confirmPassword"
     placeholder="">
 
-    <app-message
-    message="required confirm password"
+    <app-message-alert
+    messageAlert="required confirm password"
     *ngIf="
       formGroupRegister.get('confirmPassword')?.errors?.['required'] &&
       formGroupRegister.get('confirmPassword')?.touched">
-    </app-message>
+    </app-message-alert>
 
-    <app-message
-    message="The passwords are not the same"
+    <app-message-alert
+    messageAlert="The passwords are not the same"
     *ngIf="
       formGroupRegister?.errors?.['differentPassword']">
-    </app-message>
+    </app-message-alert>
   </div>
 
   <button>Enviar</button>

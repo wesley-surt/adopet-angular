@@ -31,7 +31,7 @@ class UsersController {
     };
 
     try {
-      const profileId = user.profile;
+      const profileId = user.profileId;
       const token = jwt.sign(
         {
           id: user.id
@@ -102,9 +102,9 @@ class UsersController {
     const {email} = req.body;
     const user = await users.findOne({ email: email });
     if(user) {
-      return res.status(200).json({ exists: true, message: 'Existing user' });
+      return res.status(200).json({ exists: true });
     } else {
-      return res.status(404).json({ exists: false, message: 'User not found' });
+      return res.status(404).json({});
     };
   };
 };

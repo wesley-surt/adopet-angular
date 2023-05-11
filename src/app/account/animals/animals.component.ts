@@ -21,15 +21,16 @@ export class AnimalsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params) => {
-      const animalsResolver = this.activatedRoute.snapshot.data['animals'];
-      const allAnimals = animalsResolver.allAnimals as Animals;
+    // this.activatedRoute.params.subscribe((params) => {
+    //   const animalsResolver = this.activatedRoute.snapshot.data['animals'];
+    //   const allAnimals = animalsResolver.allAnimals as Animals;
 
-      this.animals = new AllAnimalsClass(allAnimals);
-      console.log(this.animals.getAllAnimals);
+    //   this.animals = new AllAnimalsClass(allAnimals);
+    //   console.log(this.animals.getAllAnimals);
+
       // this.profileService.returnProfile().subscribe((profile) => {
       //     console.log(profile);
       // });
-    })
+    // })
   }
 }

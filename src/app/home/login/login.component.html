@@ -8,10 +8,10 @@
     name="email"
     required>
 
-    <app-message
-    message="Required email"
+    <app-message-alert
+    messageAlert="Required email"
     *ngIf="fieldEmail.invalid && fieldEmail.touched">
-    </app-message>
+    </app-message-alert>
   </div>
 
   <div>
@@ -24,10 +24,10 @@
     name="password"
     required>
 
-    <app-message
-    message="Required senha"
+    <app-message-alert
+    messageAlert="Required senha"
     *ngIf="fieldPassword.invalid && fieldPassword.touched">
-    </app-message>
+    </app-message-alert>
   </div>
 
   <button

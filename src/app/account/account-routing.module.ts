@@ -15,7 +15,7 @@ const routes: Routes = [
     component: AnimalsComponent,
     resolve: {
       // UnselectedAnimalGuard.canActivate,
-      animals: AnimalsResolver.resolver,
+      // animals: AnimalsResolver.resolver,
     }
   },
   {
@@ -29,7 +29,7 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     resolve: {
-        profileIncomplete: IncompleteProfileResolver.resolver
+        // profileIncomplete: IncompleteProfileResolver.resolver
       }
   },
 ]

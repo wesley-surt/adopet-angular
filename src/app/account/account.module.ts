@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProfileComponent } from './profile/profile.component';
 import { AnimalsComponent } from './animals/animals.component';
 import { AccountRoutingModule } from './account-routing.module';
 import { RouterModule } from '@angular/router';
-import { MessageModule } from '../components/message/message.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MessageComponent } from './message/message.component';
+import { SharedModule } from '../shared/shared.module';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
 @NgModule({
-  declarations: [ ProfileComponent, AnimalsComponent, MessageComponent ],
-  imports: [ CommonModule, AccountRoutingModule, RouterModule, FormsModule, ReactiveFormsModule, 
-    MessageModule ],
+  declarations: [ AnimalsComponent, MessageComponent, ProfileComponent ],
+  imports: [ CommonModule, AccountRoutingModule, RouterModule, FormsModule, SharedModule],
 })
 export class AccountModule { }

@@ -5,7 +5,8 @@ import { ResponseAuthentication } from 'src/app/authentication/response-authenti
 import { TokenService } from 'src/app/entities/token/token.service';
 import { ProfileService } from 'src/app/entities/profile/profile.service';
 import { Profile } from 'src/app/entities/profile/profile';
-import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/entities/user/user.service';
+import { User } from 'src/app/entities/user/user';
 
 const API = 'http://localhost:3000';
 
@@ -17,34 +18,43 @@ const API = 'http://localhost:3000';
 export class LoginComponent {
   public email!: string;
   public password!: string;
-  private authSubscription!: Subscription;
-  private profSubscription!: Subscription;
 
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
     private tokenService: TokenService,
     private profileService: ProfileService,
+    private userService: UserService
   ) {}
 
   login() {
     try {
-      this.authSubscription = this.authenticationService.authenticate(this.email, this.password)
+      this.authenticationService.authenticate(this.email, this.password)
       .subscribe((res) => {
+
         const authResponse = res.body as ResponseAuthentication;
-
         this.tokenService.saveToLocalStorage('token', authResponse.token);
-        this.profSubscription = this.profileService.getProfile(authResponse.profileId, authResponse.token)
-        .subscribe((profile: Profile) => {
+        
+        switch(authResponse.profileId) {
 
-          this.profileService.saveProfile(profile);
+          case null: 
           this.router.navigate(['account']);
+          break;
 
-        });
+          default:    
+            this.profileService.getProfile(authResponse.profileId)
+            .subscribe((profile: Profile) => {
+
+              this.userService.saveUser({email: this.email} as User);
+              this.profileService.saveProfile(profile);
+              this.router.navigate(['account']);
+            });
+            break;
+        };
       });
 
     } catch (err) {
       console.log(err);
     };
-  }
+  };
 }

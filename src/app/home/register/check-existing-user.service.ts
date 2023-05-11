@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { first, map, switchMap } from 'rxjs';
+import { EMPTY, catchError, debounceTime, filter, first, map, switchMap, tap, throwError } from 'rxjs';
 import { UserService } from 'src/app/entities/user/user.service';
+
+const PAUSA = 1000;
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +17,13 @@ export class CheckExistingUserService {
   exists() {
     return (control: AbstractControl) => {
       return control.valueChanges.pipe(
+        filter((value) => value.length >= 0),
+        debounceTime(PAUSA),
         switchMap((email) =>
           this.userService.userExists(email)
         ),
         map((res) => {
-          res.exists ? { userExists: true } : null;
+          return res ? { userExists: true } : null;
         }),
         first()
       );

@@ -1,1 +1,78 @@
-<p>profile works!</p>
+<form class="" [formGroup]="formGroupProfile" (ngSubmit)="register">
+  <div class="">
+    <input
+    class=""
+    type="file"
+    formControlName="photo">
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="name"
+    placeholder="">
+
+    <app-message-alert
+    messageAlert="Required name"
+    *ngIf="
+    formGroupProfile.get('name')?.errors?.['required'] &&
+    formGroupProfile.get('name')?.touched">
+    </app-message-alert>
+
+    <app-message-alert
+    messageAlert="Digite your name in uppercase"
+    *ngIf="
+    formGroupProfile.get('name')?.errors?.['IslowerCase'] &&
+    formGroupProfile.get('name')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="telephone"
+    placeholder="">
+
+    <app-message-alert
+    messageAlert="Required telephone"
+    *ngIf="
+    formGroupProfile.get('telephone')?.errors?.['required'] &&
+    formGroupProfile.get('telephone')?.touched">
+    </app-message-alert>
+
+    <app-message-alert
+    messageAlert="Telephone with incorrect format"
+    *ngIf="
+    formGroupProfile.get('telephone')?.errors?.['incorrectFormat'] &&
+    formGroupProfile.get('telephone')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="city"
+    placeholder="">
+
+    <app-message-alert
+    messageAlert="Required city"
+    *ngIf="
+    formGroupProfile.get('city')?.errors?.['required'] &&
+    formGroupProfile.get('city')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="about"
+    placeholder="">
+
+    <app-message-alert
+    messageAlert="Required about"
+    *ngIf="
+    formGroupProfile.get('about')?.errors?.['required'] &&
+    formGroupProfile.get('about')?.touched">
+    </app-message-alert>
+  </div>
+</form>

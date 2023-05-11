@@ -1,23 +1,15 @@
 export interface Profile {
-  _id: string,
-  photo: string,
+  _id?: string,
+  photo?: string,
   name: string,
   city: string,
-  about: string,
   telephone: string
+  about?: string,
 };
 
-export interface Envio {
+export interface ProfileToSend {
   email: string,
-  profile:
-    {
-      id: string,
-      photo: string,
-      name: string,
-      city: string,
-      about: string,
-      telephone: string
-    }
+  profile: Profile
 }
 
 /** {

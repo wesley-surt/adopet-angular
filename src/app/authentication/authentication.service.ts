@@ -17,7 +17,7 @@ export class AuthenticationService {
 
   constructor(
     private httpClient: HttpClient,
-    private profileService: ProfileService,
+    private tokenService: TokenService,
   ) {}
 
   authenticate(email: string, password: string): Observable<HttpResponse<Object>> {
@@ -34,6 +34,6 @@ export class AuthenticationService {
   }
 
   checkLogin() {
-    return this.profileService.isLoggedInLocalStorage('profile');
+    return this.tokenService.isLoggedInLocalStorage('token');
   }
 }
