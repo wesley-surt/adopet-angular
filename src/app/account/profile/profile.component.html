@@ -13,16 +13,23 @@
     placeholder="">
 
     <app-message-alert
-    messageAlert="Required name"
+    messageAlert="Required name."
     *ngIf="
     formGroupProfile.get('name')?.errors?.['required'] &&
     formGroupProfile.get('name')?.touched">
     </app-message-alert>
 
     <app-message-alert
-    messageAlert="Digite your name in uppercase"
+    messageAlert="Digite your name in uppercase."
     *ngIf="
     formGroupProfile.get('name')?.errors?.['IslowerCase'] &&
+    formGroupProfile.get('name')?.touched">
+    </app-message-alert>
+
+    <app-message-alert
+    messageAlert="This field must contain only letters, with three letters or more."
+    *ngIf="
+    formGroupProfile.get('name')?.errors?.['itsNotLyric'] &&
     formGroupProfile.get('name')?.touched">
     </app-message-alert>
   </div>
@@ -49,10 +56,44 @@
   </div>
 
   <div>
-    <input
+    <select
+    class=""
+    formControlName="uf"
+    placeholder=""
+    (ngModelChange)="currentState($event)"
+    *ngIf="federationUnits$ | async as states; else serverError">
+      <ng-template>
+        <option
+        *ngFor="let state of states"
+        [ngValue]="state">
+          <p class="">
+            {{ state.nome }}
+          </p>
+        </option>
+      </ng-template>
+    </select>
+
+    <app-message-alert
+    messageAlert="Required UF"
+    *ngIf="
+    formGroupProfile.get('uf')?.errors?.['required'] &&
+    formGroupProfile.get('uf')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <select
     class=""
     formControlName="city"
-    placeholder="">
+    placeholder=""
+    *ngIf="cities$ | async as cities; else serverError">
+      <option
+      *ngFor="let city of cities"
+      [ngValue]="">
+        <p class="">
+        </p>
+      </option>
+    </select>
 
     <app-message-alert
     messageAlert="Required city"
@@ -63,16 +104,16 @@
   </div>
 
   <div>
-    <input
+    <textarea
     class=""
     formControlName="about"
     placeholder="">
-
-    <app-message-alert
-    messageAlert="Required about"
-    *ngIf="
-    formGroupProfile.get('about')?.errors?.['required'] &&
-    formGroupProfile.get('about')?.touched">
-    </app-message-alert>
+    </textarea>
   </div>
+
+  <button>Salvar</button>
 </form>
+
+<ng-template class="" #serverError>
+  Internal Server Error. Response code 500.
+</ng-template>
