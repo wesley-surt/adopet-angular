@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { EMPTY, catchError, debounceTime, filter, first, map, switchMap, tap, throwError } from 'rxjs';
+import { debounceTime, filter, first, map, switchMap } from 'rxjs';
 import { UserService } from 'src/app/entities/user/user.service';
 
 const PAUSA = 1000;

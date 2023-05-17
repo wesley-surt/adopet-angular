@@ -64,7 +64,7 @@
     *ngIf="federationUnits$ | async as states; else serverError">
       <ng-template>
         <option
-        *ngFor="let state of states"
+        *ng-for="let state of states"
         [ngValue]="state">
           <p class="">
             {{ state.nome }}
@@ -88,9 +88,10 @@
     placeholder=""
     *ngIf="cities$ | async as cities; else serverError">
       <option
-      *ngFor="let city of cities"
-      [ngValue]="">
+      *ng-for="let city of cities"
+      [ngValue]="city.name">
         <p class="">
+          {{ city.name }}
         </p>
       </option>
     </select>

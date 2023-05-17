@@ -19,7 +19,7 @@ const routes: Routes = [
     loadChildren: () => import('./account/account.module')
       .then(module => module.AccountModule),
     // canActivate: [ AuthLoginGu ard.canActivateChild ],
-  },
+  }
 ];
 
 @NgModule({

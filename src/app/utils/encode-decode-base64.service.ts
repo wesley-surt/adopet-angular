@@ -12,5 +12,4 @@ export class EncodeDecodeBase64Service {
   static b64_to_utf8 = (str: string) => {
     return decodeURIComponent(window.atob(str));
   }
-
 }

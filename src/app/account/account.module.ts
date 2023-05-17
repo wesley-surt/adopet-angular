@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [ AnimalsComponent, MessageComponent, ProfileComponent ],
-  imports: [ CommonModule, AccountRoutingModule, RouterModule, FormsModule, SharedModule,
-  AnimalsComponent, MessageComponent, ProfileComponent],
+  imports: [ CommonModule, AccountRoutingModule, RouterModule, FormsModule, SharedModule ],
 })
 export class AccountModule { }
