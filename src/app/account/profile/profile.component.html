@@ -1,4 +1,4 @@
-<form class="" [formGroup]="formGroupProfile" (ngSubmit)="register">
+<form class="" [formGroup]="formGroupProfile" (ngSubmit)="register()">
   <div class="">
     <input
     class=""
@@ -61,24 +61,16 @@
     formControlName="uf"
     placeholder=""
     (ngModelChange)="currentState($event)"
-    *ngIf="federationUnits$ | async as states; else serverError">
-      <ng-template>
+    *ngIf="federationUnits; else serverError">
         <option
-        *ng-for="let state of states"
+        *ngFor="let state of federationUnits"
         [ngValue]="state">
           <p class="">
             {{ state.nome }}
           </p>
         </option>
-      </ng-template>
     </select>
 
-    <app-message-alert
-    messageAlert="Required UF"
-    *ngIf="
-    formGroupProfile.get('uf')?.errors?.['required'] &&
-    formGroupProfile.get('uf')?.touched">
-    </app-message-alert>
   </div>
 
   <div>
@@ -86,22 +78,15 @@
     class=""
     formControlName="city"
     placeholder=""
-    *ngIf="cities$ | async as cities; else serverError">
+    *ngIf="cities; else serverError">
       <option
-      *ng-for="let city of cities"
-      [ngValue]="city.name">
+      *ngFor="let city of cities"
+      [ngValue]="city.nome">
         <p class="">
-          {{ city.name }}
+          {{ city.nome }}
         </p>
       </option>
     </select>
-
-    <app-message-alert
-    messageAlert="Required city"
-    *ngIf="
-    formGroupProfile.get('city')?.errors?.['required'] &&
-    formGroupProfile.get('city')?.touched">
-    </app-message-alert>
   </div>
 
   <div>
@@ -112,7 +97,7 @@
     </textarea>
   </div>
 
-  <button>Salvar</button>
+  <button type="submit">Salvar</button>
 </form>
 
 <ng-template class="" #serverError>

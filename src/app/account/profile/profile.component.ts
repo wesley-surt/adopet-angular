@@ -1,5 +1,5 @@
 import { ProfileService } from 'src/app/entities/profile/profile.service';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Profile, ProfileToSend } from 'src/app/entities/profile/profile';
@@ -9,27 +9,30 @@ import { upperCase } from './upper-case';
 import { telephoneFormat } from './telephone-format';
 import { onlyLetters } from './onlyLetters';
 import { IbgeLocalityUfService } from 'src/app/services/ibge/ibge-locality-uf.service';
-import { State } from 'src/app/services/ibge/ibge';
+import { District, State } from 'src/app/services/ibge/ibge';
+import { Subscription, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   @Output() stateEmitter = new EventEmitter<number>()
 
   public formGroupProfile!: FormGroup;
-  public cities$!: any;
-  public federationUnits$!: any;
+  public cities!: District[];
+  public federationUnits!: State[];
+  private subscriptionFederationUnits!: Subscription;
+  private subscriptionCities!: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private profileService: ProfileService,
     private userService: UserService,
-    private ibgeUfService: IbgeLocalityUfService
+    private ibgeUfService: IbgeLocalityUfService,
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +54,20 @@ export class ProfileComponent implements OnInit {
       about: ['']
     });
 
-    this.federationUnits$ = this.ibgeUfService.states();
+    this.subscriptionFederationUnits = 
+        this.ibgeUfService.states()
+          .subscribe((collection)=>{
+            this.federationUnits = collection;
+          })
+
+    setTimeout(() => {
+      console.log(this.federationUnits)
+    }, 1000)
+  }
+  
+  ngOnDestroy(): void {
+    this.subscriptionFederationUnits.unsubscribe();
+    this.subscriptionCities.unsubscribe();
   }
 
   register():void {
@@ -73,6 +89,9 @@ export class ProfileComponent implements OnInit {
 
   currentState(state: State) {
     this.ibgeUfService.updateState(state);
-    this.cities$ = this.ibgeUfService.stateCities(state);
+    this.ibgeUfService.stateCities(state)
+      .subscribe((collection) => {
+        this.cities = collection;
+      });
   }
 }
