@@ -18,7 +18,7 @@ class ProfilesController {
   }
 
   static update = async (req, res) => {
-    const { id, photo, name, city, about, telephone } = req.profile;
+    const { id, photo, name, city, about, telephone } = req.body;
 
     validateField(name, 'ERROR: Name is required.', res);
     validateField(city, 'ERROR: city is required.', res);
