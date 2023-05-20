@@ -71,6 +71,12 @@
         </option>
     </select>
 
+    <app-message-alert
+    messageAlert="Required state"
+    *ngIf="
+    formGroupProfile.get('uf')?.errors?.['required'] &&
+    formGroupProfile.get('uf')?.touched">
+    </app-message-alert>
   </div>
 
   <div>
@@ -87,6 +93,13 @@
         </p>
       </option>
     </select>
+
+    <app-message-alert
+    messageAlert="Required city"
+    *ngIf="
+    formGroupProfile.get('city')?.errors?.['required'] &&
+    formGroupProfile.get('city')?.touched">
+    </app-message-alert>
   </div>
 
   <div>

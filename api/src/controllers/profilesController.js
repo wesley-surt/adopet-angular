@@ -17,33 +17,45 @@ class ProfilesController {
       };
   }
 
-  static register = async (req, res) => {
-    const {email, profile} = req.body;
-    const {id, photo, name, city, about, telephone, userId} = profile;
+  static update = async (req, res) => {
+    const { id, photo, name, city, about, telephone } = req.profile;
 
-    validateField(email, 'ERROR: Email is required.', res);
     validateField(name, 'ERROR: Name is required.', res);
     validateField(city, 'ERROR: city is required.', res);
     validateField(telephone, 'ERROR: Telephone is required.', res);
 
-    let firstAccess = null;
-    id ? firstAccess = false : firstAccess = true;
+    profiles.findByIdAndUpdate(id, {
+      photo: photo,
+      name: name,
+      city: city,
+      about: about,
+      telephone: telephone,
+    })
+    .then(() => httpResponse(200, 'Profile updated successfully', res))
+    .catch(err => httpResponse(400, 'ERROR: Failed. Profile not updated', res, err));
+  }
 
-    if(firstAccess) {
+  static register = async (req, res) => {
+    const { email, profile } = req.body;
+    const { photo, name, city, about, telephone } = profile;
 
-      let userId = null;
+    validateField(name, 'ERROR: Name is required.', res);
+    validateField(city, 'ERROR: city is required.', res);
+    validateField(telephone, 'ERROR: Telephone is required.', res);
+
+    let userId = null;
+
       try {
 
         userId = await users.findOne({ email: email })
-        .then((user) => {
-          checkProfileIdOfUser(user, res);
-        })
-        .catch((err) => {
+        .then(user => checkProfileIdOfUser(user, res))
+        .catch(err => {
           httpResponse(422, 'ERROR: User not found', res, err);
         });
 
       } catch(err) {
         console.log(err);
+        httpResponse(500, 'ERROR: Server error', res, err);
       };
 
       const profileToSave = new profiles({
@@ -52,46 +64,39 @@ class ProfilesController {
 
       try {
 
-        await profileToSave.save()
+        await profileToSave
+        .save()
         .then()
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
-          httpResponse(500, 'ERROR: Servidor failed', err);
+          httpResponse(500, 'ERROR: Servidor failed', res, err);
         });
 
-        profiles.findOne({ userId: userId })
-        .then((profile) => {
+        profiles
+        .findOne({ userId: userId })
+        .then(profile => {
 
-          users.findByIdAndUpdate({_id: userId}, { profileId: profile._id })
+          users.findByIdAndUpdate({ _id: userId }, { profileId: profile._id })
           .then(() => httpResponse(
             200, 'Profile saved and user updated successfully', res
           ))
-          .catch((err) => httpResponse(
+          .catch(err => httpResponse(
             400, 'ERROR: User not found to updatetion', res, err
           ))
         })
-        .catch((err) => httpResponse(
-          400, 'ERROR: Profile not found', res, err
-        ));
+        .catch(err => httpResponse(
+          400, 'ERROR: Profile created but not found', res, err
+          )
+        /** Implementar, posteriormente, nesta linha, dentro do catch, uma funcionalidade para excluir o
+         * profile caso ele não seja encontrado para atualizar o campo profileId do usuario e o campo userId
+         * do profile. Não quero que ambos existam sem um guardar o id do outro.
+         */
+        );
 
       } catch (err) {
         console.log(err);
       };
-
-    } else {
-
-      profiles.findByIdAndUpdate(id, {
-        photo: photo,
-        name: name,
-        city: city,
-        about: about,
-        telephone: telephone,
-        userId: userId
-      })
-      .then(() => httpResponse(200, 'Profile updated successfully', res))
-      .catch((err) => httpResponse(400, 'ERROR: Failed. Profile not updated', res, err));
-    };
-  };
+  }
 };
 
 const checkProfileIdOfUser = (user, res) => {

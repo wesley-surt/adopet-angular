@@ -8,7 +8,7 @@ const profileSchema = mongoose.Schema(
     city: { type: String, required: true },
     about: { type: String },
     telephone: { type: String, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', default: null }
   }
 );
 

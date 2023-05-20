@@ -2,7 +2,7 @@ import { ProfileService } from 'src/app/entities/profile/profile.service';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Profile, ProfileToSend } from 'src/app/entities/profile/profile';
+import { Profile } from 'src/app/entities/profile/profile';
 import { UserService } from 'src/app/entities/user/user.service';
 import { User } from 'src/app/entities/user/user';
 import { upperCase } from './upper-case';
@@ -26,6 +26,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public federationUnits!: State[];
   private subscriptionFederationUnits!: Subscription;
   private subscriptionCities!: Subscription;
+
+  /**
+{
+    "email": "mario@gmail.com",
+    "profile": {
+        "photo": "1s6dfDFG6d45s6s4f6.png",
+        "name": "mario",
+        "city": "Cogumelo",
+        "about": "Sou mario cartilho",
+        "telephone": "31988884444"
+    }
+} */
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,44 +66,43 @@ export class ProfileComponent implements OnInit, OnDestroy {
       about: ['']
     });
 
-    this.subscriptionFederationUnits = 
-        this.ibgeUfService.states()
-          .subscribe((collection)=>{
-            this.federationUnits = collection;
-          })
-
-    setTimeout(() => {
-      console.log(this.federationUnits)
-    }, 1000)
+    this.subscriptionFederationUnits = this.ibgeUfService.states()
+      .pipe( map( c => c ))
+      .subscribe(collection =>
+        this.federationUnits = collection), (err: any) => console.log(err);
   }
-  
+
   ngOnDestroy(): void {
     this.subscriptionFederationUnits.unsubscribe();
     this.subscriptionCities.unsubscribe();
   }
 
-  register():void {
+  register(): void {
     let user!: User;
-    this.userService.returnUser().subscribe((res) => user = res as User);
-    const profile = this.formGroupProfile.getRawValue() as Profile;
+    this.userService.returnUser().subscribe(res => user = res as User);
+    this.profileService.returnProfile().subscribe(profile => {
+      const profileForm = this.formGroupProfile.getRawValue() as Profile;
 
-    const profileToSend: ProfileToSend = {
-      email: user.email,
-      profile: profile
-    };
+      switch(profile._id) {
+        case '':
+          this.profileService.register(user, profileForm)
+          .subscribe(profile => this.profileService.saveProfile(profile as Profile));
 
-    this.profileService.register(profileToSend)
-    .subscribe((profile) => {
-      const response = profile.body as Profile;
-      this.profileService.saveProfile(response);
-    });
+          break;
+
+        default:
+          this.profileService.update(profileForm);
+
+          break;
+      }
+    })
   }
 
   currentState(state: State) {
     this.ibgeUfService.updateState(state);
     this.ibgeUfService.stateCities(state)
-      .subscribe((collection) => {
-        this.cities = collection;
-      });
+      .pipe( map( c => c ))
+      .subscribe(collection =>
+        this.cities = collection), (err: any) => console.log(err);
   }
 }

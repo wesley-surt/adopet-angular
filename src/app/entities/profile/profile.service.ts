@@ -5,6 +5,7 @@ import { environment } from 'src/environment/environment';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AbstractLocalStorage } from '../localStorage/local-storage-abstract';
 import { ProfileClass } from './profile-class';
+import { User } from '../user/user';
 
 const API = environment.apiURL;
 
@@ -30,8 +31,6 @@ export class ProfileService extends AbstractLocalStorage<Object> {
 
   public saveProfile(profile: Profile): void {
     const profileClass = this.createProfileClass(profile);
-
-    this.saveToLocalStorage('profile', JSON.stringify(profileClass));
     this.profileSubject.next(profileClass);
   };
 
@@ -56,12 +55,14 @@ export class ProfileService extends AbstractLocalStorage<Object> {
     this.profileSubject.next(profileClass);
   }
 
-  public register(profileToSend: ProfileToSend): Observable<HttpResponse<Profile>> {
-    return this.http.post<Profile>(`${API}/profile/register`, {
-      profileToSend
-    },
-    {
-      observe: 'response'
-    })
+  public update(profile: Profile): Observable<Profile> {
+    return this.http.put<Profile>(`${API}/profile/update`, { profile} )
+  }
+
+  public register(user: User, profile: Profile): Observable<Profile> {
+    return this.http.post<Profile>(`${API}/profile/register`, { 
+      email: user.email,
+      profile: profile
+     })
   }
 }

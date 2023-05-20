@@ -1,7 +1,7 @@
 import { District, State } from './ibge';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, first, map } from 'rxjs';
 import { environment } from 'src/environment/environment';
 
 const API = environment.apiIBGE;
@@ -27,11 +27,6 @@ export class IbgeLocalityUfService {
 
   stateCities(state: State): Observable<District[]> {
     return this.http.get<District[]>(`${API}/${state.id}/distritos`)
-    .pipe(
-      map((c)=>{
-        return c;
-      })  
-    );
   }
 
   states(): Observable<State[]> {

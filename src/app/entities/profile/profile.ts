@@ -3,7 +3,7 @@ export interface Profile {
   photo?: string,
   name: string,
   city: string,
-  telephone: string
+  telephone: string,
   about?: string,
 };
 

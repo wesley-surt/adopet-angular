@@ -36,16 +36,15 @@ export class LoginComponent {
         this.tokenService.saveToLocalStorage('token', authResponse.token);
         
         switch(authResponse.profileId) {
-
           case null: 
-          this.router.navigate(['account']);
-          break;
+            this.router.navigate(['account']);
+            break;
 
           default:    
             this.profileService.getProfile(authResponse.profileId)
             .subscribe((profile: Profile) => {
 
-              this.userService.saveUser({email: this.email} as User);
+              this.userService.saveUser({ email: this.email } as User);
               this.profileService.saveProfile(profile);
               this.router.navigate(['account']);
             });
@@ -54,6 +53,7 @@ export class LoginComponent {
       });
 
     } catch (err) {
+      // Informar o usuário do erro de login.
       console.log(err);
     };
   };

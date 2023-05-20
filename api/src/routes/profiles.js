@@ -6,6 +6,7 @@ const router = express.Router();
 
 router
   .get('/profile/:id', checkToken, ProfilesController.getProfile)
-  .post('/profile/register', ProfilesController.register);
+  .post('/profile/register', ProfilesController.register)
+  .put('/profile/update', ProfilesController.update);
 
 export default router;

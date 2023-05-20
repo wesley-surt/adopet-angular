@@ -7,6 +7,6 @@ export const httpResponse = (httpCode, message, res, err) => {
       return res.status(httpCode).json({ message: message });
     };
   } catch(err) {
-    return res.status(httpCode).json({ error: `Error in httpResponse() function. ${err.message}` });
+    return res.status(httpCode).json({ error: `Error in httpResponse() function. ${ err.message }` });
   };
 };
