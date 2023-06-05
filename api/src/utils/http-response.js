@@ -1,9 +1,13 @@
-export const httpResponse = (httpCode, message, res, err) => {
+export const httpResponse = (httpCode, message, res, option) => {
 
   try {
-    if(err) {
-      return res.status(httpCode).json({ message: message, error: err.message });
-    } else {
+    if(option.message) {
+      return res.status(httpCode).json({ message: message, error: option.message });
+    }
+    else if(option) {
+      return res.status(httpCode).json({ message: message, object: option });
+    }
+    else {
       return res.status(httpCode).json({ message: message });
     };
   } catch(err) {

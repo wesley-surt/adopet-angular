@@ -30,8 +30,17 @@ export class AnimalsController {
     };
   }
 
+  static searchByState = async (req, res) => {
+
+    const {state} = req.query;
+
+    animals.find({'state': state}, {})
+    .then((animals) => res.status(200).json(animals))
+    .catch(err => res.status(500).json({message: err}));
+  }
+
   static register = async (req, res) => {
-    const {photoUrl, name, age, size, characteristics, city, profileId} = req.body;
+    const {photoUrl, name, age, size, characteristics, city, state, profileId} = req.body;
 
     if(!photoUrl) {
       return res.status(401).json({ message: 'PhotoUrl is required' });
@@ -45,6 +54,9 @@ export class AnimalsController {
     if(!profileId) {
       return res.status(401).json({ message: 'ProfileId is required' });
     };
+    if(!state) {
+      return res.status(401).json({ message: 'State is required' });
+    };
 
     const animalToSave = new animals({
       photoUrl: photoUrl,
@@ -53,6 +65,7 @@ export class AnimalsController {
       size: size,
       characteristics: characteristics,
       city: city,
+      state: state,
       profileId: profileId
     });
 

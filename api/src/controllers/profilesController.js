@@ -31,7 +31,7 @@ class ProfilesController {
       about: about,
       telephone: telephone,
     })
-    .then(() => httpResponse(200, 'Profile updated successfully', res))
+    .then((profile) => httpResponse(200, 'Profile updated successfully', res, profile))
     .catch(err => httpResponse(400, 'ERROR: Failed. Profile not updated', res, err));
   }
 
@@ -78,7 +78,7 @@ class ProfilesController {
 
           users.findByIdAndUpdate({ _id: userId }, { profileId: profile._id })
           .then(() => httpResponse(
-            200, 'Profile saved and user updated successfully', res
+            200, 'Profile saved and user updated successfully', res, profile
           ))
           .catch(err => httpResponse(
             400, 'ERROR: User not found to updatetion', res, err

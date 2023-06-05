@@ -52,11 +52,10 @@ export class RegisterComponent implements OnInit {
   register() {
     if(this.formGroupRegister.valid) {
       const newUser = this.formGroupRegister.getRawValue() as NewUser;
-      this.userService.register(newUser).subscribe((res) => {
-        next: () => this.router.navigate([''])
-        error: (err:any) => console.log(err)
-        complete: () => console.log('complete Observable.')
-      });
+      this.userService.register(newUser).subscribe((res) =>
+
+      this.router.navigate([''])),
+      (err: any) => console.log(err);
     };
   }
 }

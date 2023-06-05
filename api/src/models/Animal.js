@@ -9,6 +9,7 @@ const animalsSchema = mongoose.Schema(
     size: { type: String },
     characteristics: { type: String },
     city: { type: String, required: true },
+    state: { type: String, required: true },
     profileId: { type: String, required: true },
   }
 )

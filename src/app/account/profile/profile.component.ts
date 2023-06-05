@@ -8,8 +8,8 @@ import { User } from 'src/app/entities/user/user';
 import { upperCase } from './upper-case';
 import { telephoneFormat } from './telephone-format';
 import { onlyLetters } from './onlyLetters';
-import { IbgeLocalityUfService } from 'src/app/services/ibge/ibge-locality-uf.service';
-import { District, State } from 'src/app/services/ibge/ibge';
+import { LocalityService } from 'src/app/services/locality/locality.service';
+import { District, State } from 'src/app/services/locality/locality';
 import { Subscription, map, tap } from 'rxjs';
 
 @Component({
@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private profileService: ProfileService,
     private userService: UserService,
-    private ibgeUfService: IbgeLocalityUfService,
+    private localityService: LocalityService,
   ) {}
 
   ngOnInit(): void {
@@ -66,8 +66,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       about: ['']
     });
 
-    this.subscriptionFederationUnits = this.ibgeUfService.states()
-      .pipe( map( c => c ))
+    this.subscriptionFederationUnits = this.localityService.getStates()
+      .pipe( map( c => c ) )
       .subscribe(collection =>
         this.federationUnits = collection), (err: any) => console.log(err);
   }
@@ -99,8 +99,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   currentState(state: State) {
-    this.ibgeUfService.updateState(state);
-    this.ibgeUfService.stateCities(state)
+    // this.localityService.updateState(state);
+    this.localityService.getCities(state)
       .pipe( map( c => c ))
       .subscribe(collection =>
         this.cities = collection), (err: any) => console.log(err);

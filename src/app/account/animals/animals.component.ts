@@ -1,10 +1,7 @@
-import { ProfileService } from 'src/app/entities/profile/profile.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Animals } from './animals';
-import { AllAnimalsClass } from './models/allAnimalsClass';
-import { tap } from 'rxjs';
-import { ProfileClass } from 'src/app/entities/profile/profile-class';
+import { AnimalsService } from './animals.service';
+import { LocalityService } from 'src/app/services/locality/locality.service';
+import { Animal } from './animals';
 
 @Component({
   selector: 'app-animals',
@@ -13,24 +10,20 @@ import { ProfileClass } from 'src/app/entities/profile/profile-class';
 })
 export class AnimalsComponent implements OnInit {
 
-  animals!: AllAnimalsClass;
+  animals!: Animal[];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private profileService: ProfileService
+    private animalsService: AnimalsService,
+    private localityService: LocalityService
   ) {}
 
   ngOnInit(): void {
-    // this.activatedRoute.params.subscribe((params) => {
-    //   const animalsResolver = this.activatedRoute.snapshot.data['animals'];
-    //   const allAnimals = animalsResolver.allAnimals as Animals;
 
-    //   this.animals = new AllAnimalsClass(allAnimals);
-    //   console.log(this.animals.getAllAnimals);
-
-      // this.profileService.returnProfile().subscribe((profile) => {
-      //     console.log(profile);
-      // });
-    // })
+      this.localityService.returnState().subscribe((state) =>
+        this.animalsService.getAnimals(state).subscribe((animals) =>
+          {
+            this.animals = animals
+            console.log(this.animals);
+          }));
   }
 }

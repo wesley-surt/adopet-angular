@@ -17,11 +17,14 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     private tokenService: TokenService
   ) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if(this.tokenService.isLoggedInLocalStorage('token')) {
+  intercept(request: HttpRequest<unknown>, next: HttpHandler)
+  : Observable<HttpEvent<unknown>> {
+    if(
+      this.tokenService.isLoggedInLocalStorage('token') &&
+      request.url.startsWith('http://localhost:3000')) {
       const token = this.tokenService.getFromLocalStorage('token');
       const headers = new HttpHeaders().append('x-access-token', token);
-      request = request.clone({ headers })
+      request = request.clone({ headers });
     }
     return next.handle(request);
   }

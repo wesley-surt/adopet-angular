@@ -11,5 +11,3 @@ export interface Animal {
 export interface Animals {
   allAnimals: Animal[];
 }
-
-// export type Animals = Array<Animal>;
