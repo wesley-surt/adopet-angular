@@ -15,7 +15,7 @@ import { CheckExistingUserService } from './check-existing-user.service';
 export class RegisterComponent implements OnInit {
 
   public formGroupRegister!: FormGroup;
-  checkExistingUser: any;
+  public checkExistingUser: any;
 
   constructor(
     private formBuilder: FormBuilder,

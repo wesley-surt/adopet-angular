@@ -12,13 +12,13 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./home/home.module')
       .then(module => module.HomeModule),
-    // canLoad: [ AuthLoginGuard.canLoad ]
+    canLoad: [ AuthLoginGuard.canLoad ]
   },
   {
     path: 'account',
     loadChildren: () => import('./account/account.module')
       .then(module => module.AccountModule),
-    // canActivate: [ AuthLoginGu ard.canActivateChild ],
+    canActivate: [ AuthLoginGuard.canActivateChild ],
   }
 ];
 

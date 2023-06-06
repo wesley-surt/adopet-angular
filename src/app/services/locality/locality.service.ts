@@ -3,10 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { environment } from 'src/environment/environment';
-import { IPAddress } from '../ip-address/ip';
 
 const API = environment.apiIBGE;
-const ipApi = environment.IP_API;
 
 @Injectable({
   providedIn: 'root'

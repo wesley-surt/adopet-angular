@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Profile, ProfileToSend } from './profile';
+import { HttpClient } from '@angular/common/http';
+import { Profile } from './profile';
 import { environment } from 'src/environment/environment';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AbstractLocalStorage } from '../localStorage/local-storage-abstract';
 import { ProfileClass } from './profile-class';
 import { User } from '../user/user';
@@ -60,7 +60,7 @@ export class ProfileService extends AbstractLocalStorage<Object> {
   }
 
   public register(user: User, profile: Profile): Observable<Profile> {
-    return this.http.post<Profile>(`${API}/profile/register`, { 
+    return this.http.post<Profile>(`${API}/profile/register`, {
       email: user.email,
       profile: profile
      })

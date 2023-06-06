@@ -31,7 +31,7 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     resolve: {
-        // profileIncomplete: IncompleteProfileResolver.resolver
+        profileIncomplete: IncompleteProfileResolver.resolver
       }
   },
 ]

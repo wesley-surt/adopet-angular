@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
 import { IP, IPAddress } from './ip';
-import { LocalityService } from '../locality/locality.service';
 
 const ipIfy = environment.api_IPIFY;
 const ipInfo = environment.api_IPINFO;
@@ -17,8 +16,7 @@ export class IpAddressService {
   ipAddressTest!: IP;
 
   constructor(
-    private http: HttpClient,
-    private localityService: LocalityService
+    private http: HttpClient
   ) { }
 
   getIpAddress(): Observable<IP> {

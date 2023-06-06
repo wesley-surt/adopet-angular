@@ -3,7 +3,6 @@ export abstract class AbstractLocalStorage<T> {
 
   constructor(
     private localStorage: Storage,
-    // private base64: EncodeDecodeBase64Service
   ) {};
 
   saveToLocalStorage(key: string, value: T): void {
@@ -27,17 +26,4 @@ export abstract class AbstractLocalStorage<T> {
   isLoggedInLocalStorage(key: string): boolean {
     return !! this.getFromLocalStorage(`${key}`);
   }
-
-  /** function utf8_to_b64(str) {
-  return window.btoa(unescape(encodeURIComponent(str)));
-}
-
-function b64_to_utf8(str) {
-  return decodeURIComponent(escape(window.atob(str)));
-}
-
-// Usage:
-utf8_to_b64("✓ à la mode"); // "4pyTIMOgIGxhIG1vZGU="
-b64_to_utf8("4pyTIMOgIGxhIG1vZGU="); // "✓ à la mode"
- */
 }

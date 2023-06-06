@@ -1,5 +1,3 @@
-import { Profile } from "./profile";
-
 export class ProfileClass {
 
   constructor(
