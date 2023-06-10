@@ -55,8 +55,8 @@ export class RegisterComponent implements OnInit {
       const newUser = this.formGroupRegister.getRawValue() as NewUser;
       this.userService.register(JSON.stringify(this.formGroupRegister.getRawValue())).subscribe(() =>
 
-      this.router.navigate(['/home/login']))
-      // (err: any) => console.log(err);
+      this.router.navigate(['/home/login'])),
+      (err: any) => console.log(err);
     };
   }
 }

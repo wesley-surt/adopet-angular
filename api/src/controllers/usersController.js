@@ -12,23 +12,14 @@ class UsersController {
   static confirmsUser = async (req, res) => {
     const { email, password } = req.body;
 
-    if(!email) {
-      return res.status(422).send({ message: 'Email is required'});
-    };
-    if(!password) {
-      return res.status(422).send({ message: 'Password is required'});
-    };
+    validateField(email, `Email is required - ${email}`, res);
+    validateField(password, `Password is required - ${password}`, res);
 
     const user = await users.findOne({ email: email });
-
-    if(!user) {
-      return res.status(404).send({ message: 'User not find.' });
-    };
+    validateField(user, 'User not find.', res);
 
     const checkPassword = await bcrypt.compare(password, user.password);
-    if(!checkPassword) {
-      return res.status(422).send({ message: 'Invalid password.' });
-    };
+    validateField(checkPassword, 'Invalid password.', res);
 
     try {
       const profileId = user.profileId;
@@ -38,11 +29,13 @@ class UsersController {
         },
         secret,
       );
-      res.status(200).json({ token, profileId });
+
+      httpResponse(200, '', { token, profileId });
+      // res.status(200).json({ token, profileId });
 
     } catch(err) {
       console.log(err);
-      res.status(500).json({ message: 'Server error. Try again later'});
+      httpResponse(500, 'Server error. Try again later', res);
     };
   };
 
@@ -54,25 +47,8 @@ class UsersController {
     validateField(password, `ERROR: Password is required - ${password}`, res);
     validateField(confirmPassword, `ERROR: Confirm Password is required - ${confirmPassword}`, res);
 
-    // if(!email) {
-    //   return res.status(422).send({ message: `Email is required - ${email}` });
-    // };
-    // if(!name) {
-    //   return res.status(422).send({ message: 'Name is required'});
-    // };
-    // if(!password) {
-    //   return res.status(422).send({ message: 'Password is required'});
-    // };
-    // if(confirmPassword !== password) {
-    //   return res.status(422).send({ message: 'Passwords do not match' });
-    // };
-
     const userExists = await users.findOne({ email: email });
     validateField(userExists, `ERROR: Please, use another email - ${userExists}`, res);
-
-    // if(userExists) {
-    //   return res.status(404).send({ message: 'Please, use another email' });
-    // };
 
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(password, salt);
@@ -86,11 +62,8 @@ class UsersController {
     try {
       await user.save();
       httpResponse(200, 'User saved successfully!', res, email);
-      // res.status(200).json({ message: 'User saved successfully!'});
-
     } catch(err) {
-      // httpResponse(500, `Error. Try again later!`, res, err);
-      // res.status(500).json({ message: 'Error. Try again later!', error: err.message });
+      httpResponse(500, `Error. Try again later!`, res, err);
     };
   };
 
@@ -99,25 +72,23 @@ class UsersController {
     const user = await users.findById(id, '-password');
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      httpResponse(404, 'User not found.', res);
     } else {
-      return res.status(200).json({ user });
+      httpResponse(200, '', res, { user });
     };
   };
 
   static exists = async (req, res) => {
 
     const {email} = req.body;
-    if(!email) {
-      return res.status(400).json({ message: 'Email is required' });
-    }
+    validateField(email, 'Email is required', res);
 
     const user = await users.findOne({ email: email });
 
     if(user) {
-      return res.status(200).json({ exists: true });
+      httpResponse(200, '', res, { exists: true });
     } else {
-      return res.status(404).json({});
+      httpResponse(404, '', res, {});
     };
   };
 };
