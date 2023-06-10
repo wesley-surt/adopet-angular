@@ -1,4 +1,6 @@
 import animals from '../models/Animal.js';
+import { httpResponse } from '../utils/http-response.js';
+import { validateField } from '../utils/validate-field.js';
 
 export class AnimalsController {
 
@@ -6,11 +8,11 @@ export class AnimalsController {
     try {
       const allAnimals = await animals.find();
       if (allAnimals)
-        return res.status(200).json({ allAnimals });
+        res.status(200).json({ allAnimals });
 
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ message: 'Server error' + err });
+      httpResponse(500, 'Server error', res, err);
     }
   }
 
@@ -22,11 +24,12 @@ export class AnimalsController {
         .populate('profileId');
 
       if(animal) {
-        return res.status(200).json( animal );
+        res.status(200).json({ animal });
       }
+      
     } catch (err) {
         console.log(err);
-        res.status(404).json({ message: 'No animal found' + err });
+        httpResponse(404, 'No animal found', res, err);
     };
   }
 
@@ -42,40 +45,28 @@ export class AnimalsController {
   static register = async (req, res) => {
     const {photoUrl, name, age, size, characteristics, city, state, profileId} = req.body;
 
-    if(!photoUrl) {
-      return res.status(401).json({ message: 'PhotoUrl is required' });
-    };
-    if(!name) {
-      return res.status(401).json({ message: 'Name is required' });
-    };
-    if(!city) {
-      return res.status(401).json({ message: 'City is required' });
-    };
-    if(!profileId) {
-      return res.status(401).json({ message: 'ProfileId is required' });
-    };
-    if(!state) {
-      return res.status(401).json({ message: 'State is required' });
-    };
+    validateField(profileId, 'ProfileId is required', res);
+    validateField(photoUrl, 'PhotoUrl is required', res);
+    validateField(state, 'State is required', res);
+    validateField(name, 'Name is required', res);
+    validateField(city, 'City is required', res);
 
     const animalToSave = new animals({
-      photoUrl: photoUrl,
-      name: name,
-      age: age,
-      size: size,
       characteristics: characteristics,
-      city: city,
+      profileId: profileId,
+      photoUrl: photoUrl,
       state: state,
-      profileId: profileId
+      name: name,
+      size: size,
+      city: city,
+      age: age,
     });
 
     try {
       animalToSave.save();
-
     } catch (err) {
-
       console.log(err);
-      return res.status(500).json({ message: 'ERROR: Servidor failed'});
+      httpResponse(500, 'ERROR: Servidor failed', res, err);
     };
   }
 }

@@ -11,10 +11,10 @@ class ProfilesController {
     const profile = await profiles.findById(id);
 
     if (!profile) {
-        return res.status(404).json({ message: 'Profile not found' });
-      } else {
-        return res.status(200).json( profile );
-      };
+      httpResponse(404, 'Profile not found', res);
+    } else {
+      res.status(200).json(profile);
+    };
   }
 
   static update = async (req, res) => {
