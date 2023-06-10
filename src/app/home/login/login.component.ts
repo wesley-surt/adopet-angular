@@ -30,10 +30,11 @@ export class LoginComponent {
   login() {
     try {
       this.authenticationService.authenticate(this.email, this.password)
-      .subscribe((res) => {
+      .subscribe(res => {
 
         const authResponse = res.body as ResponseAuthentication;
         this.tokenService.saveToLocalStorage('token', authResponse.token);
+        this.userService.saveUser({ email: this.email } as User);
 
         switch(authResponse.profileId) {
           case null:
@@ -45,7 +46,6 @@ export class LoginComponent {
             this.profileService.getProfile(authResponse.profileId)
             .subscribe((profile: Profile) => {
 
-              this.userService.saveUser({ email: this.email } as User);
               this.profileService.saveProfile(profile);
               this.router.navigate(['account']);
             });

@@ -4,7 +4,7 @@ import {
   ResolveFn
 } from '@angular/router';
 import { inject } from '@angular/core';
-import { ProfileService } from '../entities/profile/profile.service';
+import { ProfileService } from '../../entities/profile/profile.service';
 import { Subscription } from 'rxjs';
 
 

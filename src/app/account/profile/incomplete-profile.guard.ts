@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Route, RouterStateSnapshot } from '@angular/router';
-import { ProfileService } from '../entities/profile/profile.service';
+import { ProfileService } from '../../entities/profile/profile.service';
 import { Subscription } from 'rxjs';
 
 

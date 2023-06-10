@@ -4,9 +4,9 @@ export const validateField = (field, message, res) => {
 
   try {
     if(!field) {
-      httpResponse(422, message, res);
+      return httpResponse(422, message, res);
     }
   } catch (err) {
-    httpResponse(422, message, res);
+    return httpResponse(422, 'Error', res, err);
   };
 };

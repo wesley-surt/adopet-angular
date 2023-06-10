@@ -18,9 +18,7 @@ export namespace IpAddressResolver {
       const localityService: LocalityService = inject(LocalityService);
 
       ipAddressService.getIpAddress().subscribe((ip) => {
-        ipAddressService.searchIpAddress(ip).subscribe((ipAddress) => {
-          localityService.updateState(ipAddress.region);
-        })
+          localityService.updateState(ip.region);
       });
   }
 }

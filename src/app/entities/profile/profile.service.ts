@@ -20,9 +20,6 @@ export class ProfileService extends AbstractLocalStorage<Object> {
     private http: HttpClient,
   ) {
     super(localStorage);
-    if(this.isLoggedInLocalStorage('profile')) {
-      this.logInWithProfile();
-    };
   }
 
   public getProfile(id: string): Observable<Profile> {

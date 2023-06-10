@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
 import { IP, IPAddress } from './ip';
 
-const ipIfy = environment.api_IPIFY;
+const apiIP = environment.api_IP;
 const ipInfo = environment.api_IPINFO;
 const tokenIpInfo = environment.token_IPINFO;
 
@@ -20,10 +20,6 @@ export class IpAddressService {
   ) { }
 
   getIpAddress(): Observable<IP> {
-    return this.http.get<IP>(ipIfy);
-  }
-
-  searchIpAddress(ip: IP): Observable<IPAddress> {
-    return this.http.get<IPAddress>(`${ipInfo}/${ip.ip}?token=${tokenIpInfo}`);
+    return this.http.get<IP>(apiIP);
   }
 }

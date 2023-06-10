@@ -26,10 +26,23 @@ export class UserService {
     });
   };
 
-  register(newUser: NewUser): Observable<NewUser> {
-    return this.http.post<NewUser>(`${API}/users/register`, JSON.stringify(newUser));
+  register(newUser: string): Observable<any> {
+    // const body = JSON.stringify(newUser);
+    return this.http.post<any>(`${API}/users/register`, {
+      email: "pri@gmail.com",
+      name: "pri",
+      password: "123",
+      confirmPassword: "123"
+  });
   };
-  
+
+//   {
+//     "email": "princesa@gmail.com",
+//     "name": "princesa",
+//     "password": "123",
+//     "confirmPassword": "123"
+// }
+
   returnUser() {
     return this.userSubject.asObservable();
   }

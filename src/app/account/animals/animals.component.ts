@@ -24,6 +24,7 @@ export class AnimalsComponent implements OnInit {
           {
             this.animals = animals
             console.log(this.animals);
+            console.log(state);
           }));
   }
 }

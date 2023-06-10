@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthLoginGuard } from './authentication/auth-login.guard';
+import { IpAddressResolver } from './services/ip-address/ip-address.resolver';
 
 const routes: Routes = [
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
     path: 'account',
     loadChildren: () => import('./account/account.module')
       .then(module => module.AccountModule),
-    canActivate: [ AuthLoginGuard.canActivateChild ],
+    resolve: { resolve: IpAddressResolver.resolver },
+    canActivate: [ AuthLoginGuard.canActivateAccountModule ],
   }
 ];
 

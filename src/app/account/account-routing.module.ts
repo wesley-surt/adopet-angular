@@ -4,27 +4,21 @@ import { UnselectedAnimalGuard } from '../authentication/unselected-animal.guard
 import { AnimalsComponent } from './animals/animals.component';
 import { MessageComponent } from './message/message.component';
 import { ProfileComponent } from './profile/profile.component';
-import { IncompleteProfileGuard } from '../authentication/incomplete-profile.guard';
-import { IncompleteProfileResolver } from '../authentication/incomplete-profile.resolver';
-import { IpAddressResolver } from '../services/ip-address/ip-address.resolver';
+import { IncompleteProfileGuard } from './profile/incomplete-profile.guard';
+import { IncompleteProfileResolver } from './profile/incomplete-profile.resolver';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: AnimalsComponent,
-    resolve: {
-      resolve: IpAddressResolver.resolver
-    },
-    canActivate: [
-      // UnselectedAnimalGuard.canActivate
-    ]
+    component: AnimalsComponent
   },
   {
     path: 'message',
     component: MessageComponent,
     canActivate: [
       IncompleteProfileGuard.canActivate,
+      // UnselectedAnimalGuard.canActivate
     ]
   },
   {

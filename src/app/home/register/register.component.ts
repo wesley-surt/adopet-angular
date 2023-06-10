@@ -33,11 +33,11 @@ export class RegisterComponent implements OnInit {
       ],
       name: [
         '',
-        [Validators.minLength(3), Validators.required, allLowerCase]
+        [Validators.required, allLowerCase]
       ],
       password: [
         '',
-        [Validators.minLength(4), Validators.required]
+        [Validators.required]
       ],
       confirmPassword: [
         '',
@@ -50,12 +50,13 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    if(this.formGroupRegister.valid) {
+    console.log(JSON.stringify(this.formGroupRegister.getRawValue()));
+    if(this.formGroupRegister.status !== 'INVALID') {
       const newUser = this.formGroupRegister.getRawValue() as NewUser;
-      this.userService.register(newUser).subscribe((res) =>
+      this.userService.register(JSON.stringify(this.formGroupRegister.getRawValue())).subscribe(() =>
 
-      this.router.navigate([''])),
-      (err: any) => console.log(err);
+      this.router.navigate(['/home/login']))
+      // (err: any) => console.log(err);
     };
   }
 }
