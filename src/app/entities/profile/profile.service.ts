@@ -40,16 +40,11 @@ export class ProfileService extends AbstractLocalStorage<Object> {
       profile._id ?? '',
       profile.photo ?? '',
       profile.name ?? '',
+      profile.state ?? '',
       profile.city ?? '',
       profile.about ?? '',
       profile.telephone ?? ''
     );
-  }
-
-  private logInWithProfile(): void {
-    const profile = JSON.parse(this.getFromLocalStorage('profile'));
-    const profileClass = this.createProfileClass(profile)
-    this.profileSubject.next(profileClass);
   }
 
   public update(profile: Profile): Observable<Profile> {

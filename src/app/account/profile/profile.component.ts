@@ -27,18 +27,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private subscriptionFederationUnits!: Subscription;
   private subscriptionCities!: Subscription;
 
-  /**
-{
-    "email": "mario@gmail.com",
-    "profile": {
-        "photo": "1s6dfDFG6d45s6s4f6.png",
-        "name": "mario",
-        "city": "Cogumelo",
-        "about": "Sou mario cartilho",
-        "telephone": "31988884444"
-    }
-} */
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,

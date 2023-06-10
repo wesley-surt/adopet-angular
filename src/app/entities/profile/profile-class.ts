@@ -4,6 +4,7 @@ export class ProfileClass {
     readonly _id: string,
     readonly photo: string,
     readonly name: string,
+    readonly state: string,
     readonly city: string,
     readonly about: string,
     readonly telephone: string
@@ -11,6 +12,7 @@ export class ProfileClass {
     this._id = _id;
     this.photo = photo;
     this.name = name;
+    this.state = state;
     this.city = city;
     this.about = about;
     this.telephone = telephone;
@@ -30,6 +32,10 @@ export class ProfileClass {
 
   get getName(): string {
     return this.name;
+  }
+
+  get getState(): string {
+    return this.state;
   }
 
   get getCity(): string {
