@@ -22,19 +22,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
   @Output() stateEmitter = new EventEmitter<number>()
 
   public formGroupProfile!: FormGroup;
-  public cities!: District[];
   public states!: State[];
-  public federationUnits$!: Observable<State[]>;
+  public cities!: District[];
+  public profile!: Profile;
   private subscriptionFederationUnits!: Subscription;
   private subscriptionCities!: Subscription;
+  private subscriptionProfile!: Subscription;
+  public federationUnits$!: Observable<State[]>;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private profileService: ProfileService,
-    private userService: UserService,
     private localityService: LocalityService,
-  ) {}
+    private activatedRoute: ActivatedRoute,
+    private profileService: ProfileService,
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    ) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
@@ -47,34 +49,48 @@ export class ProfileComponent implements OnInit, OnDestroy {
         console.log(profileIncomplete, 'Profile completed. All ok');
       };
 
-      this.subscriptionFederationUnits = this.federationUnits$.subscribe(states => {
-        this.states = states;
+      this.subscriptionFederationUnits = this.federationUnits$.subscribe(collection => {
+        this.states = collection;
 
         this.localityService.returnState().subscribe(returnedState => {
 
-          const currentState = states.find(state => state.nome === returnedState.nome) as State;
-          this.subscriptionCities = this.localityService.getCities(currentState)
-          .subscribe(cities => {
-            this.cities = cities;
-          });
+          try {
+            const currentState = collection.find(state => state.nome === returnedState.nome) as State;
 
+            if(!currentState)
+              throw new Error('Error: Current state not found in country states listing.');
+
+            const updatedState = {
+              id: currentState.id,
+              nome: currentState.nome
+            }
+
+            this.localityService.updateState(updatedState);
+
+            this.subscriptionCities = this.localityService.getCities(currentState)
+            .subscribe(cities => {
+              this.cities = cities;
+            });
+
+          } catch (err) {
+            console.log(err);
+          }
         });
       })
     });
 
-    this.formGroupProfile = this.formBuilder.group({
-      photo: [''],
-      name: ['', [Validators.required, upperCase, onlyLetters ]],
-      telephone: ['', [Validators.required, telephoneFormat ]],
-      uf: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      about: ['']
-    });
 
-    // this.subscriptionFederationUnits = this.localityService.getStates()
-    //   .pipe( map( c => c ) )
-    //   .subscribe(collection =>
-    //     this.federationUnits = collection), (err: any) => console.log(err);
+    this.subscriptionProfile = this.profileService.returnProfile()
+    .subscribe(returnedProfile => this.profile = returnedProfile);
+
+    this.formGroupProfile = this.formBuilder.group({
+      photo: [`${this.profile.photo ?? ''}`],
+      name: [`${this.profile.name ?? ''}`, [Validators.required, upperCase, onlyLetters ]],
+      telephone: [`${this.profile.telephone ?? ''}`, [Validators.required, telephoneFormat ]],
+      uf: [`${this.profile.state ?? ''}`, [Validators.required]],
+      city: [`${this.profile.city ?? ''}`, [Validators.required]],
+      about: [`${this.profile.about ?? ''}`]
+    });
   }
 
   ngOnDestroy(): void {
@@ -85,10 +101,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   register(): void {
     let user!: User;
     this.userService.returnUser().subscribe(res => user = res as User);
-    this.profileService.returnProfile().subscribe(profile => {
+    this.profileService.returnProfile().subscribe(returnedProfile => {
       const profileForm = this.formGroupProfile.getRawValue() as Profile;
 
-      switch(profile._id) {
+      switch(returnedProfile._id) {
         case '':
           this.profileService.register(user, profileForm)
           .subscribe(profile => this.profileService.saveProfile(profile as Profile));

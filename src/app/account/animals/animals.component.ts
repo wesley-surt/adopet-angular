@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AnimalsService } from './animals.service';
 import { LocalityService } from 'src/app/services/locality/locality.service';
 import { Animal } from './animals';
@@ -8,9 +9,10 @@ import { Animal } from './animals';
   templateUrl: './animals.component.html',
   styleUrls: ['./animals.component.css']
 })
-export class AnimalsComponent implements OnInit {
+export class AnimalsComponent implements OnInit, OnDestroy {
 
-  animals!: Animal[];
+  public animals!: Animal[];
+  private subscriptionAnimals!: Subscription;
 
   constructor(
     private animalsService: AnimalsService,
@@ -20,11 +22,15 @@ export class AnimalsComponent implements OnInit {
   ngOnInit(): void {
 
       this.localityService.returnState().subscribe((state) =>
-        this.animalsService.getAnimals(state).subscribe((animals) =>
+        this.subscriptionAnimals = this.animalsService.getAnimals(state).subscribe((animals) =>
           {
             this.animals = animals
             console.log(this.animals);
             console.log(state);
           }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionAnimals
   }
 }

@@ -60,10 +60,12 @@
     class=""
     formControlName="uf"
     placeholder=""
-    (ngModelChange)="currentState($event)"
-    *ngIf="federationUnits; else serverError">
+    (ngModelChange)="currentState($event)">
+        <option selected>
+          <p>-- Select UF --</p>
+        </option>
         <option
-        *ngFor="let state of federationUnits"
+        *ngFor="let state of states"
         [ngValue]="state">
           <p class="">
             {{ state.nome }}
@@ -82,9 +84,10 @@
   <div>
     <select
     class=""
-    formControlName="city"
-    placeholder=""
-    *ngIf="cities; else serverError">
+    formControlName="city">
+      <option selected>
+        <p>-- Select City --</p>
+      </option>
       <option
       *ngFor="let city of cities"
       [ngValue]="city.nome">
@@ -112,7 +115,3 @@
 
   <button type="submit">Salvar</button>
 </form>
-
-<ng-template class="" #serverError>
-  Internal Server Error. Response code 500.
-</ng-template>
