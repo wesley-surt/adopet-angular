@@ -19,7 +19,7 @@ const routes: Routes = [
     path: 'account',
     loadChildren: () => import('./account/account.module')
       .then(module => module.AccountModule),
-    resolve: { resolve: LocalityStateResolve.resolver },
+    resolve: { resolve: LocalityStateResolve.updateState },
     canActivate: [ AuthLoginGuard.canActivateAccountModule ],
   }
 ];

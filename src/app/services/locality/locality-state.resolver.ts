@@ -7,10 +7,12 @@ import {
 import { IpAddressService } from '../ip-address/ip-address.service';
 import { LocalityService } from './locality.service';
 import { ProfileService } from 'src/app/entities/profile/profile.service';
+import { SimplifiedState, State } from './locality';
+import { Observable } from 'rxjs';
 
 
 export namespace LocalityStateResolve {
-  export const resolver: ResolveFn<any> = (
+  export const updateState: ResolveFn<any> = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
     ) => {
@@ -20,13 +22,30 @@ export namespace LocalityStateResolve {
       const profileService: ProfileService = inject(ProfileService);
 
       profileService.returnProfile().subscribe((profile) => {
+
+        let stateToSave: SimplifiedState = {
+          id: 0, nome: '',
+        }
+
         if(profile.state) {
-          localityService.updateState(profile.state);
+          stateToSave.nome = profile.state;
+          localityService.updateState(stateToSave);
+
         } else {
           ipAddressService.getIpAddress().subscribe((ip) => {
-            localityService.updateState(ip.region);
+            stateToSave.nome = ip.region;
+            localityService.updateState(stateToSave);
           });
         }
       })
+  }
+
+  export const loadsAllStates: ResolveFn<any> = (
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+    ): Observable<State[]> => {
+
+      const localityService: LocalityService = inject(LocalityService);
+      return localityService.getStates();
   }
 }

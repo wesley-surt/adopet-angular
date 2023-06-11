@@ -6,6 +6,7 @@ import { MessageComponent } from './message/message.component';
 import { ProfileComponent } from './profile/profile.component';
 import { IncompleteProfileGuard } from './profile/incomplete-profile.guard';
 import { IncompleteProfileResolver } from './profile/incomplete-profile.resolver';
+import { LocalityStateResolve } from '../services/locality/locality-state.resolver';
 
 
 const routes: Routes = [
@@ -26,7 +27,7 @@ const routes: Routes = [
     component: ProfileComponent,
     resolve: {
       profileIncomplete: IncompleteProfileResolver.resolver,
-      // Resolver observable de estado
+      states: LocalityStateResolve.loadsAllStates
     }
   },
 ]

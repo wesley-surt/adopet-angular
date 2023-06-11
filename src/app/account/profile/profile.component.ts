@@ -9,8 +9,8 @@ import { upperCase } from './upper-case';
 import { telephoneFormat } from './telephone-format';
 import { onlyLetters } from './onlyLetters';
 import { LocalityService } from 'src/app/services/locality/locality.service';
-import { District, State } from 'src/app/services/locality/locality';
-import { Subscription, map, tap } from 'rxjs';
+import { District, SimplifiedState, State } from 'src/app/services/locality/locality';
+import { Observable, Subscription, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +23,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public formGroupProfile!: FormGroup;
   public cities!: District[];
-  public federationUnits!: State[];
+  public states!: State[];
+  public federationUnits$!: Observable<State[]>;
   private subscriptionFederationUnits!: Subscription;
   private subscriptionCities!: Subscription;
 
@@ -36,14 +37,30 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // this.activatedRoute.params.subscribe((params) => {
-    //   const profileIncomplete = this.activatedRoute.snapshot.data['profileIncomplete'];
-    //   if(profileIncomplete === true) {
-    //     console.log(profileIncomplete, 'please, complete your profile');
-    //   } else {
-    //     console.log(profileIncomplete, 'Profile completed. All ok');
-    //   };
-    // });
+    this.activatedRoute.params.subscribe((params) => {
+      const profileIncomplete = this.activatedRoute.snapshot.data['profileIncomplete'];
+      this.federationUnits$ = this.activatedRoute.snapshot.data['states'];
+
+      if(profileIncomplete === true) {
+        console.log(profileIncomplete, 'please, complete your profile');
+      } else {
+        console.log(profileIncomplete, 'Profile completed. All ok');
+      };
+
+      this.subscriptionFederationUnits = this.federationUnits$.subscribe(states => {
+        this.states = states;
+
+        this.localityService.returnState().subscribe(returnedState => {
+
+          const currentState = states.find(state => state.nome === returnedState.nome) as State;
+          this.subscriptionCities = this.localityService.getCities(currentState)
+          .subscribe(cities => {
+            this.cities = cities;
+          });
+
+        });
+      })
+    });
 
     this.formGroupProfile = this.formBuilder.group({
       photo: [''],
@@ -54,10 +71,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       about: ['']
     });
 
-    this.subscriptionFederationUnits = this.localityService.getStates()
-      .pipe( map( c => c ) )
-      .subscribe(collection =>
-        this.federationUnits = collection), (err: any) => console.log(err);
+    // this.subscriptionFederationUnits = this.localityService.getStates()
+    //   .pipe( map( c => c ) )
+    //   .subscribe(collection =>
+    //     this.federationUnits = collection), (err: any) => console.log(err);
   }
 
   ngOnDestroy(): void {
@@ -87,7 +104,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   currentState(state: State) {
-    // this.localityService.updateState(state);
+
+    const stateToSave: SimplifiedState = {
+      id: state.id,
+      nome: state.nome
+    }
+
+    this.localityService.updateState(stateToSave);
     this.localityService.getCities(state)
       .pipe( map( c => c ))
       .subscribe(collection =>

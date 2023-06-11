@@ -5,6 +5,11 @@ export interface State {
     regiao: Region;
 }
 
+export interface SimplifiedState {
+    id?:     number;
+    nome:    string;
+}
+
 export interface Region {
     id:    number;
     sigla: string;

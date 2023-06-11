@@ -1,4 +1,4 @@
-import { District, State } from './locality';
+import { District, SimplifiedState, State } from './locality';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
@@ -17,11 +17,11 @@ export class LocalityService {
     private http: HttpClient
   ) { }
 
-  updateState(state: string) {
+  updateState(state: SimplifiedState) {
     this.stateSubject.next(state);
   }
 
-  returnState(): Observable<string> {
+  returnState(): Observable<SimplifiedState> {
     return this.stateSubject.asObservable();
   }
 
