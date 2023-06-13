@@ -27,7 +27,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public profile!: Profile;
   private subscriptionFederationUnits!: Subscription;
   private subscriptionCities!: Subscription;
-  private subscriptionProfile!: Subscription;
   public federationUnits$!: Observable<State[]>;
 
   constructor(
@@ -49,38 +48,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
         console.log(profileIncomplete, 'Profile completed. All ok');
       };
 
-      this.subscriptionFederationUnits = this.federationUnits$.subscribe(collection => {
-        this.states = collection;
-
-        this.localityService.returnState().subscribe(returnedState => {
-
-          try {
-            const currentState = collection.find(state => state.nome === returnedState.nome) as State;
-
-            if(!currentState)
-              throw new Error('Error: Current state not found in country states listing.');
-
-            const updatedState = {
-              id: currentState.id,
-              nome: currentState.nome
-            }
-
-            this.localityService.updateState(updatedState);
-
-            this.subscriptionCities = this.localityService.getCities(currentState)
-            .subscribe(cities => {
-              this.cities = cities;
-            });
-
-          } catch (err) {
-            console.log(err);
-          }
-        });
-      })
+      this.loadStateAndCities();
     });
 
-
-    this.subscriptionProfile = this.profileService.returnProfile()
+    this.profileService.returnProfile()
     .subscribe(returnedProfile => this.profile = returnedProfile);
 
     this.formGroupProfile = this.formBuilder.group({
@@ -98,28 +69,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subscriptionCities.unsubscribe();
   }
 
-  register(): void {
+  public register(): void {
     let user!: User;
     this.userService.returnUser().subscribe(res => user = res as User);
     this.profileService.returnProfile().subscribe(returnedProfile => {
       const profileForm = this.formGroupProfile.getRawValue() as Profile;
-
-      switch(returnedProfile._id) {
-        case '':
-          this.profileService.register(user, profileForm)
-          .subscribe(profile => this.profileService.saveProfile(profile as Profile));
-
-          break;
-
-        default:
-          this.profileService.update(profileForm);
-
-          break;
-      }
+      this.checkExistingProfile(returnedProfile, profileForm, user);
     })
   }
 
-  currentState(state: State) {
+  public currentState(state: State) {
 
     const stateToSave: SimplifiedState = {
       id: state.id,
@@ -131,5 +90,53 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .pipe( map( c => c ))
       .subscribe(collection =>
         this.cities = collection), (err: any) => console.log(err);
+  }
+
+  private checkExistingProfile(profile: Profile, profileForm: Profile, user: User): void {
+
+    switch(profile._id) {
+      case '':
+        this.profileService.register(user, profileForm)
+        .subscribe(profile => this.profileService.saveProfile(profile as Profile));
+
+        break;
+
+      default:
+        this.profileService.update(profileForm);
+
+        break;
+    }
+  }
+
+  private loadStateAndCities(): void {
+
+    this.subscriptionFederationUnits = this.federationUnits$.subscribe(collection => {
+      this.states = collection;
+
+      this.localityService.returnState().subscribe(returnedState => {
+
+        try {
+          const currentState = collection.find(state => state.nome === returnedState.nome) as State;
+
+          if(!currentState)
+            throw new Error('Error: Current state not found in country states listing.');
+
+          const updatedState = {
+            id: currentState.id,
+            nome: currentState.nome
+          };
+
+          this.localityService.updateState(updatedState);
+
+          this.subscriptionCities = this.localityService.getCities(currentState)
+          .subscribe(cities => {
+            this.cities = cities;
+          });
+
+        } catch (err) {
+          console.log(err);
+        };
+      });
+    });
   }
 }
