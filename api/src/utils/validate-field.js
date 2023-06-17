@@ -4,9 +4,10 @@ export const validateField = (field, message, res) => {
 
   try {
     if(!field) {
-      return httpResponse(422, message, res);
-    }
+      return res.status(404).json({ message: message });
+    };
+
   } catch (err) {
-    return httpResponse(422, 'Error', res, err);
+    return res.status(500).json({ error: err.message });
   };
 };

@@ -7,11 +7,12 @@ import { MessageComponent } from './message/message.component';
 import { SharedModule } from '../shared/shared.module';
 import { ProfileComponent } from './profile/profile.component';
 import { CommonModule } from '@angular/common';
+import { RegisterAnimalForAdoptionComponent } from './register-animal-for-adoption/register-animal-for-adoption.component';
 
 
 
 @NgModule({
-  declarations: [ AnimalsComponent, MessageComponent, ProfileComponent ],
+  declarations: [ AnimalsComponent, MessageComponent, ProfileComponent, RegisterAnimalForAdoptionComponent ],
   imports: [ CommonModule, AccountRoutingModule, RouterModule, FormsModule, SharedModule ],
 })
 export class AccountModule { }

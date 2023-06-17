@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import users from '../models/Users.js';
 import { environment } from '../../environment/env.js';
-import { httpResponse } from '../utils/http-response.js';
 import { validateField } from '../utils/validate-field.js'
 
 const secret = environment.SECRET_KEY ;
@@ -30,12 +29,11 @@ class UsersController {
         secret,
       );
 
-      httpResponse(200, '', { token, profileId });
-      // res.status(200).json({ token, profileId });
+      res.status(200).json({ token, profileId });
 
     } catch(err) {
       console.log(err);
-      httpResponse(500, 'Server error. Try again later', res);
+      res.status(500).json({ message: 'Server error. Try again later' });
     };
   };
 
@@ -48,7 +46,11 @@ class UsersController {
     validateField(confirmPassword, `ERROR: Confirm Password is required - ${confirmPassword}`, res);
 
     const userExists = await users.findOne({ email: email });
-    validateField(userExists, `ERROR: Please, use another email - ${userExists}`, res);
+    if(userExists) {
+      return res.status(422).json({
+        error: `ERROR: This email alredy exists.Please, use another - ${userExists}`
+      })
+    };
 
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(password, salt);
@@ -60,21 +62,24 @@ class UsersController {
     });
 
     try {
-      await user.save();
-      httpResponse(200, 'User saved successfully!', res, email);
-    } catch(err) {
-      httpResponse(500, `Error. Try again later!`, res, err);
+      const userSaved = await user.save();
+      if(!userSaved) throw new Error;
+
+      return res.status(200).json({ email: email });
+
+    } catch (err) {
+      return res.status(500).json({ error: err });
     };
-  };
+  }
 
   static userQuery = async (req, res) => {
     const id = req.params.id;
     const user = await users.findById(id, '-password');
 
     if (!user) {
-      httpResponse(404, 'User not found.', res);
+      res.status(404).json({ message: 'User not found.' });
     } else {
-      httpResponse(200, '', res, { user });
+      res.status(200).json({ user });
     };
   };
 
@@ -86,9 +91,9 @@ class UsersController {
     const user = await users.findOne({ email: email });
 
     if(user) {
-      httpResponse(200, '', res, { exists: true });
+      res.status(200).json({ user });
     } else {
-      httpResponse(404, '', res, {});
+      res.status(404).json({});
     };
   };
 };

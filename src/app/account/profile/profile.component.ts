@@ -1,4 +1,3 @@
-import { ProfileService } from 'src/app/entities/profile/profile.service';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,8 +8,9 @@ import { upperCase } from './upper-case';
 import { telephoneFormat } from './telephone-format';
 import { onlyLetters } from './onlyLetters';
 import { LocalityService } from 'src/app/services/locality/locality.service';
-import { District, SimplifiedState, State } from 'src/app/services/locality/locality';
+import { District, State } from 'src/app/services/locality/locality';
 import { Observable, Subscription, map, tap } from 'rxjs';
+import { ProfileService } from 'src/app/entities/profile/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,25 +22,29 @@ export class ProfileComponent implements OnInit, OnDestroy {
   @Output() stateEmitter = new EventEmitter<number>()
 
   public formGroupProfile!: FormGroup;
-  public states!: State[];
   public cities!: District[];
   public profile!: Profile;
   private subscriptionFederationUnits!: Subscription;
   private subscriptionCities!: Subscription;
-  public federationUnits$!: Observable<State[]>;
+  public states!: Observable<State[]>;
 
   constructor(
     private localityService: LocalityService,
     private activatedRoute: ActivatedRoute,
-    private profileService: ProfileService,
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private profileService: ProfileService
     ) {}
+
+  ngOnDestroy(): void {
+    this.subscriptionFederationUnits.unsubscribe();
+    this.subscriptionCities.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       const profileIncomplete = this.activatedRoute.snapshot.data['profileIncomplete'];
-      this.federationUnits$ = this.activatedRoute.snapshot.data['states'];
+      this.states = this.activatedRoute.snapshot.data['states'];
 
       if(profileIncomplete === true) {
         console.log(profileIncomplete, 'please, complete your profile');
@@ -48,15 +52,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
         console.log(profileIncomplete, 'Profile completed. All ok');
       };
 
-      this.loadStateAndCities();
-    });
+      // this.loadStateAndCities();
 
-    this.profileService.returnProfile()
-    .subscribe(returnedProfile => this.profile = returnedProfile);
-
-    this.formGroupProfile = this.formBuilder.group({
+      this.formGroupProfile = this.formBuilder.group({
       photo: [`${this.profile.photo ?? ''}`],
-      name: [`${this.profile.name ?? ''}`, [Validators.required, upperCase, onlyLetters ]],
+      name: [`${this.profile.name ?? ''}`, [Validators.required, onlyLetters, ]],
       telephone: [`${this.profile.telephone ?? ''}`, [Validators.required, telephoneFormat ]],
       uf: [`${this.profile.state ?? ''}`, [Validators.required]],
       city: [`${this.profile.city ?? ''}`, [Validators.required]],
@@ -64,13 +64,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.subscriptionFederationUnits.unsubscribe();
-    this.subscriptionCities.unsubscribe();
-  }
-
-  public register(): void {
-    let user!: User;
+  register(): void {
     this.userService.returnUser().subscribe(res => user = res as User);
     this.profileService.returnProfile().subscribe(returnedProfile => {
       const profileForm = this.formGroupProfile.getRawValue() as Profile;
@@ -78,65 +72,58 @@ export class ProfileComponent implements OnInit, OnDestroy {
     })
   }
 
-  public currentState(state: State) {
+  // public currentState(state: State) {
+  //   this.updateStateAndLoadCities(state);
+    // Dependendo de como o código proceder durante os testes, pprecisarei dar um refresh na página
+    // neste local.
+  // }
 
-    const stateToSave: SimplifiedState = {
-      id: state.id,
-      nome: state.nome
-    }
+  // private checkExistingProfile(profile: Profile, profileForm: Profile, user: User): void {
 
-    this.localityService.updateState(stateToSave);
-    this.localityService.getCities(state)
-      .pipe( map( c => c ))
-      .subscribe(collection =>
-        this.cities = collection), (err: any) => console.log(err);
+  //   switch(profile._id) {
+  //     case '':
+  //       this.profileService.register(user, profileForm)
+  //       .subscribe(profile => this.profileService.saveProfile(profile as Profile));
+
+  //       break;
+
+  //     default:
+  //       this.profileService.update(profileForm);
+
+  //       break;
+  //   }
+  // }
+
+//   private loadStateAndCities(): void {
+//     this.localityService.returnState().subscribe(returnedState => {
+
+//     try {
+//       const currentState = this.state.find(state => state.nome === returnedState.nome) as State;
+
+//       if(!currentState)
+//         throw new Error('Error: Current state not found in country states listing.');
+
+//         this.updateStateAndLoadCities(currentState);
+
+//     } catch (err) {
+//       console.log(err);
+//     };
+//   });
+// }
+    )}}
+
+/**
+ *   private updateStateAndLoadCities(currentState: State): void {
+    const updatedState = {
+      id: currentState.id,
+      nome: currentState.nome
+    };
+
+    this.localityService.updateState(updatedState);
+
+    this.localityService.getCities(currentState)
+    .pipe( map( c => c ))
+    .subscribe(collection =>
+      this.cities = collection), (err: any) => console.log(err);
   }
-
-  private checkExistingProfile(profile: Profile, profileForm: Profile, user: User): void {
-
-    switch(profile._id) {
-      case '':
-        this.profileService.register(user, profileForm)
-        .subscribe(profile => this.profileService.saveProfile(profile as Profile));
-
-        break;
-
-      default:
-        this.profileService.update(profileForm);
-
-        break;
-    }
-  }
-
-  private loadStateAndCities(): void {
-
-    this.subscriptionFederationUnits = this.federationUnits$.subscribe(collection => {
-      this.states = collection;
-
-      this.localityService.returnState().subscribe(returnedState => {
-
-        try {
-          const currentState = collection.find(state => state.nome === returnedState.nome) as State;
-
-          if(!currentState)
-            throw new Error('Error: Current state not found in country states listing.');
-
-          const updatedState = {
-            id: currentState.id,
-            nome: currentState.nome
-          };
-
-          this.localityService.updateState(updatedState);
-
-          this.subscriptionCities = this.localityService.getCities(currentState)
-          .subscribe(cities => {
-            this.cities = cities;
-          });
-
-        } catch (err) {
-          console.log(err);
-        };
-      });
-    });
-  }
-}
+ */

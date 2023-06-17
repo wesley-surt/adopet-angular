@@ -26,13 +26,13 @@ export class UserService {
     });
   };
 
-  register(newUser: string): Observable<any> {
+  register(newUser: NewUser): Observable<any> {
     // const body = JSON.stringify(newUser);
     return this.http.post<any>(`${API}/users/register`, {
-      email: "pri@gmail.com",
-      name: "pri",
-      password: "123",
-      confirmPassword: "123"
+      email: newUser.email,
+      name: newUser.name,
+      password: newUser.password,
+      confirmPassword: newUser.confirmPassword
   });
   };
 

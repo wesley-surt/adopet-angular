@@ -4,8 +4,10 @@ export interface Animal {
     name: string,
     age: string,
     size: string,
-    characteristics: string,
-    city: string
+    characteristics?: string,
+    state: string,
+    city: string,
+    profileId: string
 };
 
 export interface Animals {

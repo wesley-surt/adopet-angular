@@ -17,22 +17,23 @@ export class LocalityService {
     private http: HttpClient
   ) { }
 
-  updateState(state: SimplifiedState) {
+  public updateState(state: SimplifiedState) {
     this.stateSubject.next(state);
   }
 
-  returnState(): Observable<SimplifiedState> {
+  public returnState(): Observable<SimplifiedState> {
     return this.stateSubject.asObservable();
   }
-
-  getCities(state: State): Observable<District[]> {
-    return this.http.get<District[]>(`${API}/${state.id}/distritos`)
-  }
-
-  getStates(): Observable<State[]> {
+  
+  public getStates(): Observable<State[]> {
     return this.http.get<State[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
     .pipe(
       map((c) => c)
     );
   }
+
+  public getCities(state: State): Observable<District[]> {
+    return this.http.get<District[]>(`${API}/${state.id}/distritos`)
+  }
+
 }

@@ -32,10 +32,12 @@ export namespace LocalityStateResolve {
           localityService.updateState(stateToSave);
 
         } else {
-          ipAddressService.getIpAddress().subscribe((ip) => {
-            stateToSave.nome = ip.region;
-            localityService.updateState(stateToSave);
-          });
+          ipAddressService.getIpTest().subscribe((ip) => {
+            ipAddressService.getIpAddress(ip).subscribe((ip) => {
+              stateToSave.nome = ip.region;
+              localityService.updateState(stateToSave);
+            });
+          })
         }
       })
   }
