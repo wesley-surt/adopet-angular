@@ -50,9 +50,10 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    console.log(JSON.stringify(this.formGroupRegister.getRawValue()));
     if(this.formGroupRegister.status !== 'INVALID') {
       const newUser = this.formGroupRegister.getRawValue() as NewUser;
-      this.userService.register(newUser).subscribe(() =>
+      this.userService.register(JSON.stringify(this.formGroupRegister.getRawValue())).subscribe(() =>
 
       this.router.navigate(['/home/login'])),
       (err: any) => console.log(err);

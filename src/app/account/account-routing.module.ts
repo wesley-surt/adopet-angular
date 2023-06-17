@@ -7,21 +7,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { IncompleteProfileGuard } from './profile/incomplete-profile.guard';
 import { IncompleteProfileResolver } from './profile/incomplete-profile.resolver';
 import { LocalityStateResolve } from '../services/locality/locality-state.resolver';
-import { RegisterAnimalForAdoptionGuard } from './register-animal-for-adoption/register-animal-for-adoption.guard';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'animals',
-    pathMatch: 'full'
-  },
-  {
-    path: 'animals',
-    component: AnimalsComponent,
-    resolve: {
-      // resolve:
-    }
+    component: AnimalsComponent
   },
   {
     path: 'message',
@@ -37,13 +28,9 @@ const routes: Routes = [
     resolve: {
       profileIncomplete: IncompleteProfileResolver.resolver,
       states: LocalityStateResolve.loadsAllStates
-    },
+    }
   },
 ]
-
-// canActivate: [
-//   RegisterAnimalForAdoptionGuard.canActivate
-// ]
 
 @NgModule({
   imports: [ RouterModule.forChild(routes) ],

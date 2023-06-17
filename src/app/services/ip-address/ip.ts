@@ -39,18 +39,3 @@ export interface IP {
   asn: string;
   org: string;
 }
-
-export interface IPTest {
-  ip: string
-}
-
-export interface ApiIPInfo {
-  ip: string;
-  city: string;
-  region: string;
-  country: string;
-  loc: string;
-  org: string;
-  postal: string;
-  timezone: string;
-}

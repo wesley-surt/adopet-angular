@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AnimalsService } from '../../entities/animals/animals.service';
+import { AnimalsService } from './animals.service';
 import { LocalityService } from 'src/app/services/locality/locality.service';
-import { Animal } from '../../entities/animals/animals';
+import { Animal } from './animals';
 
 @Component({
   selector: 'app-animals',
@@ -31,6 +31,6 @@ export class AnimalsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptionAnimals.unsubscribe;
+    this.subscriptionAnimals
   }
 }
