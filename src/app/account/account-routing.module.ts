@@ -12,7 +12,12 @@ import { LocalityStateResolve } from '../services/locality/locality-state.resolv
 const routes: Routes = [
   {
     path: '',
-    component: AnimalsComponent
+    redirectTo: 'animals',
+    pathMatch: 'full'
+  },
+  {
+    path: 'animals',
+    component: AnimalsComponent,
   },
   {
     path: 'message',

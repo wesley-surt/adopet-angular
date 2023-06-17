@@ -26,7 +26,7 @@ export class AnimalsController {
       if(animal) {
         res.status(200).json({ animal });
       }
-      
+
     } catch (err) {
         console.log(err);
         httpResponse(404, 'No animal found', res, err);
