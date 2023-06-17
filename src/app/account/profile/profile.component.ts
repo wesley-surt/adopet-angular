@@ -22,17 +22,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
   @Output() stateEmitter = new EventEmitter<number>()
 
   public formGroupProfile!: FormGroup;
-  public states!: State[];
-  public cities!: District[];
   public profile!: Profile;
-  private subscriptionFederationUnits!: Subscription;
-  private subscriptionCities!: Subscription;
+  public states!: State[];
   public federationUnits$!: Observable<State[]>;
+  public cities!: District[];
+  private subscriptionStates!: Subscription;
+  private subscriptionCities!: Subscription;
 
   constructor(
-    private localityService: LocalityService,
-    private activatedRoute: ActivatedRoute,
-    private profileService: ProfileService,
+  private localityService: LocalityService,
+  private activatedRoute: ActivatedRoute,
+  private profileService: ProfileService,
     private formBuilder: FormBuilder,
     private userService: UserService,
     ) {}
@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         console.log(profileIncomplete, 'Profile completed. All ok');
       };
 
-      this.loadStateAndCities();
+      this.loadStatesAndCities();
     });
 
     this.profileService.returnProfile()
@@ -65,7 +65,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptionFederationUnits.unsubscribe();
+    this.subscriptionStates.unsubscribe();
     this.subscriptionCities.unsubscribe();
   }
 
@@ -86,10 +86,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     this.localityService.updateState(stateToSave);
-    this.localityService.getCities(state)
-      .pipe( map( c => c ))
-      .subscribe(collection =>
-        this.cities = collection), (err: any) => console.log(err);
+    this.loadCities(state);
   }
 
   private checkExistingProfile(profile: Profile, profileForm: Profile, user: User): void {
@@ -108,35 +105,44 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  private loadStateAndCities(): void {
+  private loadStatesAndCities(): void {
 
-    this.subscriptionFederationUnits = this.federationUnits$.subscribe(collection => {
-      this.states = collection;
+    this.subscriptionStates =
+      this.federationUnits$.subscribe(colection => {
+        this.states = colection;
 
-      this.localityService.returnState().subscribe(returnedState => {
+        this.localityService.returnState().subscribe(returnedState => {
 
-        try {
-          const currentState = collection.find(state => state.nome === returnedState.nome) as State;
+          try {
+            this.updateStateAndLoadCities(colection, returnedState);
 
-          if(!currentState)
-            throw new Error('Error: Current state not found in country states listing.');
-
-          const updatedState = {
-            id: currentState.id,
-            nome: currentState.nome
+          } catch (err) {
+            console.log(err);
           };
-
-          this.localityService.updateState(updatedState);
-
-          this.subscriptionCities = this.localityService.getCities(currentState)
-          .subscribe(cities => {
-            this.cities = cities;
-          });
-
-        } catch (err) {
-          console.log(err);
-        };
       });
     });
+  }
+
+  public updateStateAndLoadCities(colection: State[], returnedState: SimplifiedState): void {
+    const currentState = colection.find(state => state.nome === returnedState.nome) as State;
+
+    if(!currentState)
+      throw new Error('Error: Current state not found in country states listing.');
+
+    const updatedState = {
+      id: currentState.id,
+      nome: currentState.nome
+    };
+
+    this.localityService.updateState(updatedState);
+    this.loadCities(currentState);
+  }
+
+  public loadCities(state: State): void {
+
+    this.subscriptionCities = this.localityService.getCities(state)
+    .pipe( map( c => c ))
+    .subscribe(colection =>
+      this.cities = colection), (err: any) => console.log(err);
   }
 }
