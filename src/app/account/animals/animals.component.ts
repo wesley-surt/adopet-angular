@@ -21,13 +21,14 @@ export class AnimalsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-      this.localityService.returnState().subscribe((state) =>
-        this.subscriptionAnimals = this.animalsService.getAnimals(state).subscribe((animals) =>
-          {
-            this.animals = animals
-            console.log(this.animals);
-            console.log(state);
-          }));
+    this.localityService.returnState().subscribe((state) => {
+      console.log(state);
+      this.subscriptionAnimals = this.animalsService.getAnimals(state).subscribe((animals) => {
+          this.animals = animals
+          console.log(this.animals);
+          console.log(state);
+      })
+    })
   }
 
   ngOnDestroy(): void {

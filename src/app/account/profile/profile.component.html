@@ -59,18 +59,17 @@
     <select
     class=""
     formControlName="uf"
-    placeholder=""
-    (ngModelChange)="currentState($event)">
-        <option selected>
-          <p>-- Select UF --</p>
-        </option>
-        <option
-        *ngFor="let state of states"
-        [ngValue]="state">
-          <p class="">
-            {{ state.nome }}
-          </p>
-        </option>
+    (ngModelChange)="selectedState($event)">
+      <option [ngValue]="null" selected disabled>
+        <p>{{ preSelectionState }}</p>
+      </option>
+      <option
+      *ngFor="let state of states"
+      [ngValue]="state">
+        <p class="">
+          {{ state.nome }}
+        </p>
+      </option>
     </select>
 
     <app-message-alert
@@ -85,9 +84,9 @@
     <select
     class=""
     formControlName="city">
-      <option selected>
-        <p>-- Select City --</p>
-      </option>
+    <option [ngValue]="null" selected disabled>
+      <p>{{ preSelectionCitie }}</p>
+    </option>
       <option
       *ngFor="let city of cities"
       [ngValue]="city.nome">
