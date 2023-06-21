@@ -19,10 +19,8 @@ import { Subscription, map } from 'rxjs';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  @Output() stateEmitter = new EventEmitter<number>()
-
-  public preSelectionState: string = '-- Select Uf --';
-  public preSelectionCitie: string = '-- Select Cities --';
+  public preSelectionState!: string;
+  public preSelectionCitie!: string;
 
   public formGroupProfile!: FormGroup;
 
@@ -56,27 +54,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
 
     try {
-
       this.loadStateAndCities();
       this.localityService.updateState(this.auxiliaryState);
 
-    } catch (err) {
-      console.log(err);
-    };
+    } catch (err) { console.log(err) };
 
     this.profileService.returnProfile()
-    .subscribe(returnedProfile => {
-      this.profile = returnedProfile;
-    });
+    .subscribe(returnedProfile => this.profile = returnedProfile);
 
-    this.formGroupProfile = this.formBuilder.group({
-      photo: [`${this.profile.photo ?? ''}`],
-      name: [`${this.profile.name ?? ''}`, [Validators.required, upperCase, onlyLetters ]],
-      telephone: [`${this.profile.telephone ?? ''}`, [Validators.required, telephoneFormat ]],
-      uf: [null, [Validators.required]],
-      city: [null, [Validators.required]],
-      about: [`${this.profile.about ?? ''}`]
-    });
+    this.runReactiveForm();
+
+    this.preSelectionState = this.profile.state ?? '-- Selecione Um Estado --';
+    this.preSelectionCitie = this.profile.city ?? '-- Selecione Uma Cidade --';
   }
 
   ngOnDestroy(): void {
@@ -87,14 +76,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public register(): void {
     let user!: User;
     this.userService.returnUser().subscribe(res => user = res as User);
+
     this.profileService.returnProfile().subscribe(returnedProfile => {
       const profileForm = this.formGroupProfile.getRawValue() as Profile;
       this.checkExistingProfile(returnedProfile, profileForm, user);
-    })
+    });
+
+    this.runReactiveForm();
   }
 
   public selectedState(state: State) {
-
     const stateToSave: SimplifiedState = {
       id: state.id,
       nome: state.nome
@@ -109,7 +100,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       const currentState = this.states.find(state => state.nome === returnedState.nome);
 
       if(!currentState)
-      throw new Error('Error: Current state not found in country states listing.');
+      throw new Error('Current state not found in country states listing.');
 
       this.auxiliaryState = {
         id: currentState.id,
@@ -117,6 +108,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
       };
 
       this.loadCities(currentState);
+    });
+  }
+
+  private runReactiveForm(): void {
+    this.formGroupProfile = this.formBuilder.group({
+      
+      photo: [`${this.profile.photo ?? ''}`],
+      name: [`${this.profile.name ?? ''}`, [Validators.required, upperCase, onlyLetters ]],
+      telephone: [`${this.profile.telephone ?? ''}`, [Validators.required, telephoneFormat ]],
+      uf: [null, [Validators.required]],
+      city: [null, [Validators.required]],
+      about: [`${this.profile.about ?? ''}`]
     });
   }
 
@@ -128,17 +131,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private checkExistingProfile(profile: Profile, profileForm: Profile, user: User): void {
-
     switch(profile._id) {
+
       case '':
         this.profileService.register(user, profileForm)
         .subscribe(profile => this.profileService.saveProfile(profile as Profile));
-
         break;
 
       default:
-        this.profileService.update(profileForm);
-
+        this.profileService.update(profileForm)
+        .subscribe(profile => this.profileService.saveProfile(profile as Profile));
         break;
     }
   }
