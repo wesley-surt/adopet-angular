@@ -1,16 +1,16 @@
 import { ProfileService } from 'src/app/entities/profile/profile.service';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Profile } from 'src/app/entities/profile/profile';
 import { UserService } from 'src/app/entities/user/user.service';
 import { User } from 'src/app/entities/user/user';
-import { upperCase } from './upper-case';
-import { telephoneFormat } from './telephone-format';
-import { onlyLetters } from './onlyLetters';
 import { LocalityService } from 'src/app/services/locality/locality.service';
 import { District, SimplifiedState, State } from 'src/app/services/locality/locality';
 import { Subscription, map } from 'rxjs';
+import { upperCase } from '../upper-case';
+import { onlyLetters } from '../onlyLetters';
+import { telephoneFormat } from '../telephone-format';
 
 @Component({
   selector: 'app-profile',
@@ -113,10 +113,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private runReactiveForm(): void {
     this.formGroupProfile = this.formBuilder.group({
-      
+
       photo: [`${this.profile.photo ?? ''}`],
       name: [`${this.profile.name ?? ''}`, [Validators.required, upperCase, onlyLetters ]],
-      telephone: [`${this.profile.telephone ?? ''}`, [Validators.required, telephoneFormat ]],
+      _telephone: [`${this.profile.telephone ?? ''}`, [Validators.required, telephoneFormat]],
+      get telephone() {
+        return this._telephone;
+      },
+      set telephone(value) {
+        this._telephone = value;
+      },
       uf: [null, [Validators.required]],
       city: [null, [Validators.required]],
       about: [`${this.profile.about ?? ''}`]
@@ -126,7 +132,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private loadCities(state: State): void {
     this.subscriptionCities = this.localityService.getCities(state)
     .pipe( map( c => c ))
-    .subscribe(colection => 
+    .subscribe(colection =>
       this.cities = colection), (err: any) => console.log(err);
   }
 
@@ -142,6 +148,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.profileService.update(profileForm)
         .subscribe(profile => this.profileService.saveProfile(profile as Profile));
         break;
+        // Preciso fazer o back-end retornar o perfil atualizado.
     }
   }
 }

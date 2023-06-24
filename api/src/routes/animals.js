@@ -8,6 +8,8 @@ router
   .get('/animals/search', animalsController.searchByState)
   .get('/animals', animalsController.getAllAnimals)
   .get('/animals/:id', checkTonken, animalsController.getAnimal)
-  .post('/animals/register', animalsController.register);
+  .post('/animals/register', animalsController.register)
+  .delete('/animals/:id', checkTonken, animalsController.delete)
+  .put('/animals/:id', checkTonken, animalsController.update)
 
 export default router;

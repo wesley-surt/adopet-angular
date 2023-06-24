@@ -69,6 +69,23 @@ export class AnimalsController {
       httpResponse(500, 'ERROR: Servidor failed', res, err);
     };
   }
+
+  static delete = (req, res) => {
+    const {id} = req.params;
+
+    animals.findByIdAndDelete(id)
+    .then(() => httpResponse(200, 'OK. Animal deleted', res))
+    .catch(() => httpResponse(500, 'Internal Server Error', res));
+  }
+
+  static update = (req, res) => {
+    const {id} = req.params;
+    const {animal} = req.body;
+
+    animals.findByIdAndUpdate(id, animal)
+    .then(() => httpResponse(200, 'OK. Animal updated', res))
+    .catch(() => httpResponse(500, 'Internal Server Error', res));
+  }
 }
 
 export default AnimalsController;

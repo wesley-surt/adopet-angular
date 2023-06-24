@@ -7,6 +7,6 @@ export const validateField = (field, message, res) => {
       return httpResponse(422, message, res);
     }
   } catch (err) {
-    return httpResponse(422, 'Error', res, err);
+    return httpResponse(422, 'Error: ', res, err);
   };
 };

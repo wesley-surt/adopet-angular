@@ -1,15 +1,15 @@
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AnimalsService } from './animals.service';
+import { AnimalsService } from '../../../entities/animals/animals.service';
 import { LocalityService } from 'src/app/services/locality/locality.service';
-import { Animal } from './animals';
+import { Animal } from 'src/app/entities/animals/animals';
 
 @Component({
-  selector: 'app-animals',
-  templateUrl: './animals.component.html',
-  styleUrls: ['./animals.component.css']
+  selector: 'app-animals-feed',
+  templateUrl: './animals-feed.component.html',
+  styleUrls: ['./animals-feed.component.css']
 })
-export class AnimalsComponent implements OnInit, OnDestroy {
+export class AnimalsFeedComponent implements OnInit, OnDestroy {
 
   public animals!: Animal[];
   private subscriptionAnimals!: Subscription;
@@ -23,7 +23,7 @@ export class AnimalsComponent implements OnInit, OnDestroy {
 
     this.localityService.returnState().subscribe((state) => {
       console.log(state);
-      this.subscriptionAnimals = this.animalsService.getAnimals(state).subscribe((animals) => {
+      this.subscriptionAnimals = this.animalsService.fetchAll(state).subscribe((animals) => {
           this.animals = animals
           console.log(this.animals);
           console.log(state);
