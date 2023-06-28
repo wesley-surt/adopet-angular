@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Animal } from 'src/app/entities/animals/animals';
 
 @Component({
   selector: 'app-animals-list',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AnimalsListComponent {
 
+  @Output() public relayEvent: EventEmitter<Animal> = new EventEmitter();
+  @Input() animals!: Animal[];
+
+  public relay(animal: Animal) {
+
+    this.relayEvent.emit(animal);
+    console.log('Entrei no Animal List')
+  }
 }

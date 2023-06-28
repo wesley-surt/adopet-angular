@@ -1,1 +1,111 @@
-<p>edit-animal works!</p>
+<form class="" [formGroup]="formGroupEdit" (ngSubmit)="update()">
+  <div class="">
+    <input
+    class=""
+    type="file"
+    formControlName="photo">
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="name">
+
+    <app-message-alert
+    messageAlert="Required name."
+    *ngIf="
+    formGroupEdit.get('name')?.errors?.['required'] &&
+    formGroupEdit.get('name')?.touched">
+    </app-message-alert>
+
+    <app-message-alert
+    messageAlert="Digite your name in uppercase."
+    *ngIf="
+    formGroupEdit.get('name')?.errors?.['IslowerCase'] &&
+    formGroupEdit.get('name')?.touched">
+    </app-message-alert>
+
+    <app-message-alert
+    messageAlert="This field must contain only letters, with three letters or more."
+    *ngIf="
+    formGroupEdit.get('name')?.errors?.['itsNotLyric'] &&
+    formGroupEdit.get('name')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="a">
+
+    <app-message-alert
+    messageAlert="Required age"
+    *ngIf="
+    formGroupEdit.get('age')?.errors?.['required'] &&
+    formGroupEdit.get('age')?.touched">
+    </app-message-alert>
+
+    <app-message-alert
+    messageAlert="age with incorrect format"
+    *ngIf="
+    formGroupEdit.get('age')?.errors?.['itsNotANumber'] &&
+    formGroupEdit.get('age')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="size">
+
+    <app-message-alert
+    messageAlert="Required size"
+    *ngIf="
+    formGroupEdit.get('size')?.errors?.['required'] &&
+    formGroupEdit.get('size')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="characteristcs">
+
+    <app-message-alert
+    messageAlert="Required characteristcs"
+    *ngIf="
+    formGroupEdit.get('characteristcs')?.errors?.['required'] &&
+    formGroupEdit.get('characteristcs')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="city">
+
+    <app-message-alert
+    messageAlert="Required city"
+    *ngIf="
+    formGroupEdit.get('city')?.errors?.['required'] &&
+    formGroupEdit.get('city')?.touched">
+    </app-message-alert>
+
+    <app-message-alert
+    messageAlert="Digite your name in uppercase."
+    *ngIf="
+    formGroupEdit.get('name')?.errors?.['IslowerCase'] &&
+    formGroupEdit.get('name')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <textarea
+    class=""
+    formControlName="about"
+    placeholder="Conte nos um pouco sobre você e seu carinho por Pet">
+    </textarea>
+  </div>
+
+  <button type="submit">Salvar</button>
+</form>

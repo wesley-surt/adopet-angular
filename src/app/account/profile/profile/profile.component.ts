@@ -1,5 +1,5 @@
 import { ProfileService } from 'src/app/entities/profile/profile.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Profile } from 'src/app/entities/profile/profile';
@@ -9,8 +9,11 @@ import { LocalityService } from 'src/app/services/locality/locality.service';
 import { District, SimplifiedState, State } from 'src/app/services/locality/locality';
 import { Subscription, map } from 'rxjs';
 import { upperCase } from '../upper-case';
-import { onlyLetters } from '../onlyLetters';
+import { onlyLetters } from '../only-letters';
 import { telephoneFormat } from '../telephone-format';
+import { AnimalCardForDialogComponent } from 'src/app/components/animal-card-for-dialog/animal-card-for-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Animal } from 'src/app/entities/animals/animals';
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +21,10 @@ import { telephoneFormat } from '../telephone-format';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+
+  @ViewChild('button') public button!: TemplateRef<any>;
+
+  public dialogRef!: MatDialogRef<AnimalCardForDialogComponent>;
 
   public preSelectionState!: string;
   public preSelectionCitie!: string;
@@ -39,6 +46,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private profileService: ProfileService,
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +79,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptionStates.unsubscribe();
     this.subscriptionCities.unsubscribe();
+    this.dialogRef.close();
+  }
+
+  public openDialog(animal: Animal): void {
+
+    this.dialogRef = this.dialog.open(AnimalCardForDialogComponent, {
+      data: {animal, path: '/profile', button: this.button}
+    });
   }
 
   public register(): void {

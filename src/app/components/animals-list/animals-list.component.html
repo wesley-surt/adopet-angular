@@ -1,1 +1,5 @@
 <p>animals-list works!</p>
+
+<div *ngFor="let animal of animals">
+  <app-animal-card (clickedAnimal)="relay($event)" [animal]="animal"></app-animal-card>
+</div>

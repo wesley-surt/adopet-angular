@@ -5,20 +5,18 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'animals',
+    redirectTo: 'feed',
     pathMatch: 'full'
   },
   {
-    path: 'animalsForAdoption',
+    path: 'feed',
     loadChildren: () => import('./animals-for-adoption/animals-for-adoption.module')
-    .then(module => module.AnimalsForAdoptionModule),
-
+    .then(module => module.AnimalsForAdoptionModule)
   },
   {
-    path: 'profileUser',
+    path: 'profile',
     loadChildren: () => import('./profile/profile.module')
-    .then(module => module.ProfileModule),
-
+    .then(module => module.ProfileModule)
   },
 ]
 

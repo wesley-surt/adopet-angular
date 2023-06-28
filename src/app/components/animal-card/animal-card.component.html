@@ -1,1 +1,12 @@
 <p>animal-card works!</p>
+
+<mat-dialog-actions>
+  <div mat-raised-button (click)="emitterAnimal(animal)">
+    <p>{{ animal.photoUrl }}</p>
+    <p>{{ animal.name }}</p>
+    <p>{{ animal.size }}</p>
+    <p>{{ animal.age }}</p>
+    <p>{{ animal.characteristics }}</p>
+    <p>{{ animal.city }}</p>
+  </div>
+</mat-dialog-actions>

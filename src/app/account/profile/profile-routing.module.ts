@@ -10,11 +10,11 @@ import { EditAnimalComponent } from './edit-animal/edit-animal.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'profile',
+    redirectTo: 'user-profile',
     pathMatch: 'full'
   },
   {
-    path: 'profile',
+    path: 'user-profile',
     component: ProfileComponent,
     resolve: {
       profileIncomplete: IncompleteProfileResolver.resolver,
@@ -22,11 +22,11 @@ const routes: Routes = [
     }
   },
   {
-    path: 'registerAnimal',
+    path: 'register-animal',
     component: RegisterAnimalComponent
   },
   {
-    path: 'editAnimal',
+    path: 'edit-animal/:id',
     component: EditAnimalComponent
   }
 ]

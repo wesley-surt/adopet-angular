@@ -9,15 +9,15 @@ import { MessageComponent } from './message/message.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'animalsFeed',
+    redirectTo: 'animals',
     pathMatch: 'full'
   },
   {
-    path: 'animalsFeed',
+    path: 'animals',
     component: AnimalsFeedComponent,
   },
   {
-    path: 'animalsProfile',
+    path: 'profile/:id',
     component: AnimalProfileComponent,
   },
   {

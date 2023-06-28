@@ -4,7 +4,6 @@ import { RegisterAnimalComponent } from './register-animal/register-animal.compo
 import { EditAnimalComponent } from './edit-animal/edit-animal.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TestAngularModule } from 'src/app/components/test-angular/test-angular.module';
 import { ProfileComponent } from './profile/profile.component';
 
 
@@ -13,6 +12,6 @@ import { ProfileComponent } from './profile/profile.component';
   declarations: [
     RegisterAnimalComponent, EditAnimalComponent, ProfileComponent
   ],
-  imports: [ CommonModule, ReactiveFormsModule, SharedModule, TestAngularModule  ]
+  imports: [ CommonModule, ReactiveFormsModule, SharedModule ]
 })
 export class ProfileModule { }

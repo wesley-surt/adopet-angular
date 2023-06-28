@@ -1,11 +1,12 @@
 export interface Animal {
-    id: string,
+    id?: string,
     photoUrl: string,
     name: string,
     age: string,
-    size: string,
+    size?: string,
     characteristics: string,
-    city: string
+    city: string,
+    about?: string
 };
 
 export interface Animals {
