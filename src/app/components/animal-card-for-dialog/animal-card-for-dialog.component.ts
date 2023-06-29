@@ -1,7 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, Output, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Animal } from 'src/app/entities/animals/animals';
-import { ButtonDialogFeedComponent } from '../button-dialog-feed/button-dialog-feed.component';
 
 
 @Component({
@@ -9,10 +8,8 @@ import { ButtonDialogFeedComponent } from '../button-dialog-feed/button-dialog-f
   templateUrl: './animal-card-for-dialog.component.html',
   styleUrls: ['./animal-card-for-dialog.component.css']
 })
-export class AnimalCardForDialogComponent implements OnDestroy
- {
+export class AnimalCardForDialogComponent implements OnDestroy {
 
-  // @ViewChild('button') public button!: TemplateRef<any>;
   @Output() path!: string;
 
   public templateRefButton: TemplateRef<any> = this.data.button;

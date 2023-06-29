@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { upperCase } from '../upper-case';
@@ -18,6 +19,7 @@ export class RegisterAnimalComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private animalsService: AnimalsService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -37,9 +39,11 @@ export class RegisterAnimalComponent implements OnInit {
       const formValue = this.formGroupRegister.getRawValue() as Animal;
 
       this.animalsService.register(formValue).subscribe(data => {
-        console.log(data + ' - Animal Registered successfully'),
-        (err: any) => console.log(err.message);
-      });
+        alert('Animal cadastrado com sucesso - ' + data)
+        console.log('Animal Registered successfully - ' + data)
+        this.router.navigate(['']);
+      })
+      ,(err: any) => console.log(err.message);
     }
   }
 }
