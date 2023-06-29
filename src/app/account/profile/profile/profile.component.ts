@@ -32,6 +32,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public formGroupProfile!: FormGroup;
 
   public auxiliaryState!: SimplifiedState;
+  public animals!: Animal[];
+
+  public dynamicMessage = 'EXIBIR';
+  public show = false;
 
   public profile!: Profile;
   public states!: State[];
@@ -74,19 +78,45 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.preSelectionState = this.profile.state ?? '-- Selecione Um Estado --';
     this.preSelectionCitie = this.profile.city ?? '-- Selecione Uma Cidade --';
+
+    // Apenas para separar a parte que busca os animais para serem renderizados
+    //--------------------------------*********---------------------------------------------
+
+    this.localityService.returnState().subscribe((state) => {
+
+      const stateSubstituto: SimplifiedState = {
+        id: 31,
+        nome: 'Minas Gerais'
+      }
+
+      this.animals = [
+        {
+          id: '123658974',
+          photoUrl: '6asd5f46a8sdf4',
+          name: 'Cachorrito',
+          age: '25',
+          characteristics: 'ele é bacana',
+          city: 'contagem'
+        },
+        {
+          id: '123658974',
+          photoUrl: '6asd5f46a8sdf4',
+          name: 'Gatito',
+          age: '50',
+          characteristics: 'ele é simpático',
+          city: 'Belo horizonte'
+        },
+      ]
+      // this.subscriptionAnimals = this.animalsService.fetchAll(stateSubstituto).subscribe((animals) => {
+      //     this.animals = animals
+      // })
+    })
   }
 
   ngOnDestroy(): void {
     this.subscriptionStates.unsubscribe();
     this.subscriptionCities.unsubscribe();
     this.dialogRef.close();
-  }
-
-  public openDialog(animal: Animal): void {
-
-    this.dialogRef = this.dialog.open(AnimalCardForDialogComponent, {
-      data: {animal, path: '/profile', button: this.button}
-    });
   }
 
   public register(): void {
@@ -166,5 +196,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
         break;
         // Preciso fazer o back-end retornar o perfil atualizado.
     }
+  }
+
+  public toggleShow(): void {
+    this.show = !this.show;
+
+    if(this.show) {
+      this.dynamicMessage = 'OCULTAR';
+    } else {
+      this.dynamicMessage = 'EXIBIR';
+    }
+  }
+
+  public openDialog(animal: Animal): void {
+
+    this.dialogRef = this.dialog.open(AnimalCardForDialogComponent, {
+      data: {animal, path: '/profile', button: this.button}
+    });
   }
 }

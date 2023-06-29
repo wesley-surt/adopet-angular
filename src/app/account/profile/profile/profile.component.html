@@ -120,6 +120,18 @@ pelo usuário, a depender de seu clique. É permitido ao componente apenas rende
 abaixo do perfil, não redirecionando a rota. Deve se assemelhar à grade de exibição presente
 no componente de rota feed. -->
 
+<div>
+  <P>Meus Pets</P>
+  <button (click)="toggleShow()">{{ dynamicMessage }}</button>
+
+  <ng-template *ngIf="show">
+    <div>
+      <app-animals-list (relayEvent)="openDialog($event)" [animals]="animals"></app-animals-list>
+    </div>
+  </ng-template>
+
+</div>
+
 <ng-template #button>
   <div>
     <button mat-button mat-dialog-close>FECHAR</button>
