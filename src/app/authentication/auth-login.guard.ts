@@ -4,7 +4,7 @@ import { AuthenticationService } from "./authentication.service";
 
 export namespace AuthLoginGuard {
 
-  export const canActivateAccountModule: CanActivateFn = (
+  export const canActivateAccount: CanActivateFn = (
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
   ) => {
@@ -15,19 +15,15 @@ export namespace AuthLoginGuard {
         router.navigate(['home/login']);
         return false;
       };
-      
+
       return true;
   }
 
-  export const canActivateAccountModuleChild: CanActivateChildFn = (
-      route: ActivatedRouteSnapshot,
-      state: RouterStateSnapshot
-  ) => canActivateAccountModule(route, state);
-
-  export const canLoad: CanActivateFn = (
+  export const redirectForAccount: CanActivateFn = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ) => {
+    
       const authService: AuthenticationService = inject(AuthenticationService);
       const router = inject(Router);
 

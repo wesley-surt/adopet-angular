@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { environment } from 'src/environment/environment';
 
-const API = environment.apiIBGE;
+const ibge = environment.apiIBGE;
 
 @Injectable({
   providedIn: 'root'
@@ -17,20 +17,20 @@ export class LocalityService {
     private http: HttpClient
   ) { }
 
-  updateState(state: SimplifiedState) {
+  public updateState(state: SimplifiedState) {
     this.stateSubject.next(state);
   }
 
-  returnState(): Observable<SimplifiedState> {
+  public returnState(): Observable<SimplifiedState> {
     return this.stateSubject.asObservable();
   }
 
-  getCities(state: State): Observable<District[]> {
-    return this.http.get<District[]>(`${API}/${state.id}/distritos`)
+  public getCities(state: State): Observable<District[]> {
+    return this.http.get<District[]>(`${ibge}/${state.id}/distritos`)
   }
 
-  getStates(): Observable<State[]> {
-    return this.http.get<State[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+  public getStates(): Observable<State[]> {
+    return this.http.get<State[]>(ibge)
     .pipe(
       map((c) => c)
     );

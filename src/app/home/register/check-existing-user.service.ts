@@ -17,14 +17,10 @@ export class CheckExistingUserService {
   exists() {
     return (control: AbstractControl) => {
       return control.valueChanges.pipe(
-        filter((value) => value.length >= 0),
+        filter(value => value.length >= 0),
         debounceTime(PAUSA),
-        switchMap((email) =>
-          this.userService.userExists(email)
-        ),
-        map((res) => {
-          return res ? { userExists: true } : null;
-        }),
+        switchMap(email => this.userService.userExists(email)),
+        map((res) => res ? { userExists: true } : null),
         first()
       );
     };

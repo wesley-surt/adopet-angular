@@ -7,11 +7,10 @@ import { Animal } from 'src/app/entities/animals/animals';
   styleUrls: ['./animal-card.component.css']
 })
 export class AnimalCardComponent {
-  @Input() animal!: Animal;
-  @Output() clickedAnimal: EventEmitter<Animal> = new EventEmitter();
+  @Input() public animal!: Animal;
+  @Output() public clickedAnimal: EventEmitter<Animal> = new EventEmitter();
 
-  emitterAnimal(animal: Animal): void {
+  public emitterAnimal(animal: Animal): void {
     this.clickedAnimal.emit(animal);
-    console.log(animal);
   }
 }

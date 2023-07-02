@@ -7,9 +7,7 @@ import { AuthenticationInterceptor } from './authentication.interceptor';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ],
+  imports: [ CommonModule ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

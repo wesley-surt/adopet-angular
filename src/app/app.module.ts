@@ -1,7 +1,7 @@
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CabecalhoComponent } from './components/cabecalho/cabecalho.component';
-import { RodapeComponent } from './components/rodape/rodape.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { AuthenticationModule } from './authentication/authentication.module';
 import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 
 
 @NgModule({
-  declarations: [ AppComponent, CabecalhoComponent, RodapeComponent ],
+  declarations: [ AppComponent, HeaderComponent, FooterComponent ],
   imports: [
     FormsModule,
     CommonModule,

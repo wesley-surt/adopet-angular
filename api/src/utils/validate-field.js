@@ -1,12 +1,13 @@
-import { httpResponse } from './http-response.js';
-
 export const validateField = (field, message, res) => {
 
   try {
     if(!field) {
-      return httpResponse(422, message, res);
-    }
+      return res.status(422).json({ message: message });
+    };
+
+    return;
+
   } catch (err) {
-    return httpResponse(422, 'Error: ', res, err);
+    return res.status(500).json( { message: 'Erro interno - ' + err.message });
   };
 };

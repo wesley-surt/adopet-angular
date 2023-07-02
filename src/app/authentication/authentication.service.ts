@@ -2,8 +2,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TokenService } from '../entities/token/token.service';
+import { environment } from 'src/environment/environment';
 
-const API = 'http://localhost:3000';
+const API = environment.apiURL;
 
 @Injectable({
   providedIn: 'root'

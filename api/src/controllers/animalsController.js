@@ -1,5 +1,4 @@
 import animals from '../models/Animal.js';
-import { httpResponse } from '../utils/http-response.js';
 import { validateField } from '../utils/validate-field.js';
 
 export class AnimalsController {
@@ -11,8 +10,7 @@ export class AnimalsController {
         res.status(200).json({ allAnimals });
 
     } catch (err) {
-      console.log(err);
-      httpResponse(500, 'Server error', res, err);
+      res.status(500).json({ message: 'Server error', error: err.message });
     }
   }
 
@@ -28,8 +26,7 @@ export class AnimalsController {
       }
 
     } catch (err) {
-        console.log(err);
-        httpResponse(404, 'No animal found', res, err);
+        res.status(404).json({ message: 'No animal found', error: err.message });
     };
   }
 
@@ -63,10 +60,11 @@ export class AnimalsController {
     });
 
     try {
-      animalToSave.save();
+      await animalToSave.save();
     } catch (err) {
-      console.log(err);
-      httpResponse(500, 'ERROR: Servidor failed', res, err);
+      res.status(500).json({
+        message: 'ERROR: Servidor failed', error: err.message
+      });
     };
   }
 
@@ -74,8 +72,10 @@ export class AnimalsController {
     const {id} = req.params;
 
     animals.findByIdAndDelete(id)
-    .then(() => httpResponse(200, 'OK. Animal deleted', res))
-    .catch(() => httpResponse(500, 'Internal Server Error', res));
+    .then(() => res.status(200).json({ message: 'OK. Animal deleted' }))
+    .catch((err) => res.status(500).json({
+      message: 'Internal Server Error', error: err.message
+    }));
   }
 
   static update = (req, res) => {
@@ -83,8 +83,10 @@ export class AnimalsController {
     const {animal} = req.body;
 
     animals.findByIdAndUpdate(id, animal)
-    .then(() => httpResponse(200, 'OK. Animal updated', res))
-    .catch(() => httpResponse(500, 'Internal Server Error', res));
+    .then(animal => res.status(200).json({ animal }))
+    .catch((err) => res.status(500).json({
+      message: 'Internal Server Error', error: err.message
+    }));
   }
 }
 

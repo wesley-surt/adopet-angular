@@ -1,0 +1,132 @@
+<form class="" [formGroup]="formGroupProfile" (ngSubmit)="register()">
+  <div class="">
+    <input
+    class=""
+    type="file"
+    formControlName="photo">
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="name"
+    placeholder="Qual o seu nome completo?">
+
+    <app-message-alert
+    messageAlert="Required name."
+    *ngIf="
+    formGroupProfile.get('name')?.errors?.['required'] &&
+    formGroupProfile.get('name')?.touched">
+    </app-message-alert>
+
+    <app-message-alert
+    messageAlert="Digite your name in uppercase."
+    *ngIf="
+    formGroupProfile.get('name')?.errors?.['IslowerCase'] &&
+    formGroupProfile.get('name')?.touched">
+    </app-message-alert>
+
+    <app-message-alert
+    messageAlert="This field must contain only letters, with three letters or more."
+    *ngIf="
+    formGroupProfile.get('name')?.errors?.['itsNotLyric'] &&
+    formGroupProfile.get('name')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <input
+    class=""
+    formControlName="telephone"
+    placeholder="Ex:(DDD)xxxxx-xxxx">
+
+    <app-message-alert
+    messageAlert="Required telephone"
+    *ngIf="
+    formGroupProfile.get('telephone')?.errors?.['required'] &&
+    formGroupProfile.get('telephone')?.touched">
+    </app-message-alert>
+
+    <app-message-alert
+    messageAlert="Telephone with incorrect format"
+    *ngIf="
+    formGroupProfile.get('telephone')?.errors?.['incorrectFormat'] &&
+    formGroupProfile.get('telephone')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <select
+    class=""
+    formControlName="uf"
+    (ngModelChange)="selectedState($event)">
+      <option [ngValue]="null" selected disabled>
+        <p>{{ preSelectionState }}</p>
+      </option>
+      <option
+      *ngFor="let state of states"
+      [ngValue]="state">
+        <p class="">
+          {{ state.nome }}
+        </p>
+      </option>
+    </select>
+
+    <app-message-alert
+    messageAlert="Required state"
+    *ngIf="
+    formGroupProfile.get('uf')?.errors?.['required'] &&
+    formGroupProfile.get('uf')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <select
+    class=""
+    formControlName="city">
+    <option [ngValue]="null" selected disabled>
+      <p>{{ preSelectionCitie }}</p>
+    </option>
+      <option
+      *ngFor="let city of cities"
+      [ngValue]="city.nome">
+        <p class="">
+          {{ city.nome }}
+        </p>
+      </option>
+    </select>
+
+    <app-message-alert
+    messageAlert="Required city"
+    *ngIf="
+    formGroupProfile.get('city')?.errors?.['required'] &&
+    formGroupProfile.get('city')?.touched">
+    </app-message-alert>
+  </div>
+
+  <div>
+    <textarea
+    class=""
+    formControlName="about"
+    placeholder="Conte nos um pouco sobre você e seu carinho por Pet">
+    </textarea>
+  </div>
+
+  <button type="submit">Salvar</button>
+</form>
+
+<div>
+  <P>Meus Pets</P>
+  <button (click)="toggleShow()">{{ dynamicMessage }}</button>
+
+  <div *ngIf="show">
+    <app-animals-list (relayEvent)="openDialog($event)" [animals]="animals"></app-animals-list>
+  </div>
+</div>
+
+<ng-template #button>
+  <div>
+    <button mat-button mat-dialog-close>FECHAR</button>
+    <button mat-button [routerLink]="[ '/edit', animalClickedId ]">EDITAR</button>
+  </div>
+</ng-template>

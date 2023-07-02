@@ -19,35 +19,27 @@ export class UserService {
     private http: HttpClient
   ) {}
 
-  userExists(email: string): Observable<ResponseUserExists> {
+  public userExists(email: string): Observable<ResponseUserExists> {
     return this.http.post<ResponseUserExists>(`${API}/users/exists`,
     {
       email: email
     });
   };
 
-  register(newUser: string): Observable<any> {
-    // const body = JSON.stringify(newUser);
+  public register(newUser: NewUser): Observable<any> {
     return this.http.post<any>(`${API}/users/register`, {
-      email: "pri@gmail.com",
-      name: "pri",
-      password: "123",
-      confirmPassword: "123"
+      email: newUser.email,
+      name: newUser.name,
+      password: newUser.password,
+      confirmPassword: newUser.confirmPassword
   });
   };
 
-//   {
-//     "email": "princesa@gmail.com",
-//     "name": "princesa",
-//     "password": "123",
-//     "confirmPassword": "123"
-// }
-
-  returnUser() {
+  public returnUser() {
     return this.userSubject.asObservable();
   }
 
-  saveUser(user: User) {
+  public saveUser(user: User) {
     this.userSubject.next(user);
   }
 }

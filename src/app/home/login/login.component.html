@@ -3,13 +3,13 @@
     <input
     class=""
     [(ngModel)]="email"
-    placeholder="email"
+    placeholder="Ex: nome@gmail.com"
     #fieldEmail="ngModel"
     name="email"
     required>
 
     <app-message-alert
-    messageAlert="Required email"
+    messageAlert="Email requirido"
     *ngIf="fieldEmail.invalid && fieldEmail.touched">
     </app-message-alert>
   </div>
@@ -19,13 +19,13 @@
     type="password"
     class=""
     [(ngModel)]="password"
-    placeholder="password"
+    placeholder="Senha"
     #fieldPassword="ngModel"
     name="password"
     required>
 
     <app-message-alert
-    messageAlert="Required senha"
+    messageAlert="Senha requirida"
     *ngIf="fieldPassword.invalid && fieldPassword.touched">
     </app-message-alert>
   </div>

@@ -26,7 +26,5 @@
       <p>{{ data.animal.city }}</p>
   </div>
 
-  <div *ngIf="path ? true : false">
-    <ng-content *appAddCustomButton="pathAux"></ng-content>
-  </div>
+  <ng-content *ngTemplateOutlet="templateRefButton"></ng-content>
 </form>

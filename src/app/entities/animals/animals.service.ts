@@ -29,7 +29,7 @@ export class AnimalsService {
   }
 
   public update(animal: Animal): Observable<any> {
-    return this.http.put<any>(`${API}/animals/${animal.id}`, {animal});
+    return this.http.put<any>(`${API}/animals/${animal._id}`, {animal});
   }
 
   public register(animal: Animal): Observable<Animal> {

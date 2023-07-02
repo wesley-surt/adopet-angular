@@ -3,24 +3,24 @@
     <input
     class=""
     formControlName="email"
-    placeholder="">
+    placeholder="Ex: nome@gmail.com">
 
     <app-message-alert
-    messageAlert="Required email"
+    messageAlert="Digite seu email para se cadastrar."
     *ngIf="
       formGroupRegister.get('email')?.errors?.['required'] &&
       formGroupRegister.get('email')?.touched">
     </app-message-alert>
 
     <app-message-alert
-    messageAlert="Email with incorrect format"
+    messageAlert="Seu email está com formato incorreto."
     *ngIf="
       formGroupRegister.get('email')?.errors?.['email'] &&
       formGroupRegister.get('email')?.touched">
     </app-message-alert>
 
     <app-message-alert
-    messageAlert="Email already registered. Please, use another."
+    messageAlert="Email já cadastrado. Por favor, use outro."
     *ngIf="
       formGroupRegister.get('email')?.errors?.['userExists']">
     </app-message-alert>
@@ -30,24 +30,24 @@
     <input
     class=""
     formControlName="name"
-    placeholder="">
+    placeholder="Nome">
 
     <app-message-alert
-    messageAlert="Required name"
+    messageAlert="Digite como deseja ser chamado."
     *ngIf="
       formGroupRegister.get('name')?.errors?.['required'] &&
       formGroupRegister.get('name')?.touched">
     </app-message-alert>
 
     <app-message-alert
-    messageAlert="Quantity minimum characters 3"
+    messageAlert="Deve conter no mínimo 3 letras."
     *ngIf="
       formGroupRegister.get('name')?.errors?.['minLength'] &&
       formGroupRegister.get('name')?.touched">
     </app-message-alert>
 
     <app-message-alert
-    messageAlert="Please, digite your name in lowercase"
+    messageAlert="Digite tudo em minúsculo."
     *ngIf="
       formGroupRegister.get('name')?.errors?.['lowerCase'] &&
       formGroupRegister.get('name')?.touched">
@@ -59,10 +59,10 @@
     type="password"
     class=""
     formControlName="password"
-    placeholder="">
+    placeholder="Senha">
 
     <app-message-alert
-    messageAlert="Required password"
+    messageAlert="Senha requirida"
     *ngIf="
       formGroupRegister.get('password')?.errors?.['required'] &&
       formGroupRegister.get('password')?.touched">
@@ -74,17 +74,17 @@
     type="password"
     class=""
     formControlName="confirmPassword"
-    placeholder="">
+    placeholder="Confirma senha">
 
     <app-message-alert
-    messageAlert="required confirm password"
+    messageAlert="Confirme sua senha."
     *ngIf="
       formGroupRegister.get('confirmPassword')?.errors?.['required'] &&
       formGroupRegister.get('confirmPassword')?.touched">
     </app-message-alert>
 
     <app-message-alert
-    messageAlert="The passwords are not the same"
+    messageAlert="As senhas digitadas não são iguais"
     *ngIf="
       formGroupRegister?.errors?.['differentPassword']">
     </app-message-alert>

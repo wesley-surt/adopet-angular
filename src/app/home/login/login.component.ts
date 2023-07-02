@@ -8,7 +8,6 @@ import { Profile } from 'src/app/entities/profile/profile';
 import { UserService } from 'src/app/entities/user/user.service';
 import { User } from 'src/app/entities/user/user';
 
-const API = 'http://localhost:3000';
 
 @Component({
   selector: 'app-login',
@@ -37,9 +36,9 @@ export class LoginComponent {
         this.userService.saveUser({ email: this.email } as User);
 
         switch(authResponse.profileId) {
+
           case null:
             this.router.navigate(['account']);
-
             break;
 
           default:
@@ -49,7 +48,6 @@ export class LoginComponent {
               this.profileService.saveProfile(profile);
               this.router.navigate(['account']);
             });
-
             break;
         };
       });

@@ -11,8 +11,18 @@ import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
-  declarations: [ HomeComponent, LoginComponent, RegisterComponent, HomePageComponent ],
-  imports: [ CommonModule, HomeRoutingModule, FormsModule, SharedModule ],
+  declarations: [
+    HomeComponent,
+    LoginComponent,
+    RegisterComponent,
+    HomePageComponent
+  ],
+  imports: [
+    CommonModule,
+    HomeRoutingModule,
+    FormsModule,
+    SharedModule
+  ],
   exports: [ HomeComponent ],
 })
 export class HomeModule { }

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AnimalCardDialogComponent } from './animal-card-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatButtonModule } from '@angular/material/button'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { CommonModule } from '@angular/common';
+import { AnimalCardDialogComponent } from './animal-card-dialog.component';
 
 
 
@@ -22,6 +22,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatFormFieldModule,
     ReactiveFormsModule,
   ],
-  exports: [AnimalCardDialogComponent]
+  exports: [AnimalCardDialogComponent],
 })
 export class AnimalCardDialogModule { }

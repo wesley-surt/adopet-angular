@@ -1,0 +1,12 @@
+<p>animals works!</p>
+
+<div>
+  <app-animals-list (relayEvent)="openDialog($event)" [animals]="animals"></app-animals-list>
+</div>
+
+<ng-template #button>
+  <div>
+    <button mat-button mat-dialog-close>FECHAR</button>
+    <button mat-button [routerLink]="['/animals/profile', animal._id]">VER MAIS</button>
+  </div>
+</ng-template>

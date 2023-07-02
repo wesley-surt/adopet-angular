@@ -10,13 +10,13 @@ const routes: Routes = [
   },
   {
     path: 'feed',
-    loadChildren: () => import('./animals-for-adoption/animals-for-adoption.module')
-    .then(module => module.AnimalsForAdoptionModule)
+    loadChildren: () => import('./feed-adoption/feed-adoption.module')
+    .then(module => module.FeedAdoptionModule)
   },
   {
-    path: 'profile',
-    loadChildren: () => import('./profile/profile.module')
-    .then(module => module.ProfileModule)
+    path: 'user',
+    loadChildren: () => import('./user/user.module')
+    .then(module => module.UserModule)
   },
 ]
 

@@ -5,25 +5,25 @@ export abstract class AbstractLocalStorage<T> {
     private localStorage: Storage,
   ) {};
 
-  saveToLocalStorage(key: string, value: T): void {
+  public saveToLocalStorage(key: string, value: T): void {
     const encodedValue = EncodeDecodeBase64Service.utf8_to_b64(`${value}`);
     this.localStorage.setItem(key, encodedValue);
   };
 
-  removeFromLocalStorage(key: string): void {
+  public removeFromLocalStorage(key: string): void {
     this.localStorage.removeItem(key);
   };
 
-  getFromLocalStorage(key: string): string {
+  public getFromLocalStorage(key: string): string {
     const decodeValue = this.localStorage.getItem(key) ?? '';
     return EncodeDecodeBase64Service.b64_to_utf8(decodeValue);
   };
 
-  updateLocalStorage(key: string, value: T): void {
+  public updateLocalStorage(key: string, value: T): void {
     this.saveToLocalStorage(key, value);
   };
 
-  isLoggedInLocalStorage(key: string): boolean {
+  public isLoggedInLocalStorage(key: string): boolean {
     return !! this.getFromLocalStorage(`${key}`);
   }
 }

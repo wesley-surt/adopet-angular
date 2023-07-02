@@ -7,7 +7,6 @@ export function checkPasswordsValidators(constol: AbstractControl) {
 
   if(password && confirmPassword) {
     return password !== confirmPassword ? { differentPassword: true } : null;
-  } else {
-    return null;
-  };
+  }
+  else { return null };
 }

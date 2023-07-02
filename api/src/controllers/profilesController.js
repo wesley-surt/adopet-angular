@@ -1,4 +1,3 @@
-import { httpResponse } from '../utils/http-response.js';
 import { validateField } from '../utils/validate-field.js';
 import profiles from "../models/Profile.js";
 import users from "../models/Users.js";
@@ -11,7 +10,7 @@ class ProfilesController {
     const profile = await profiles.findById(id);
 
     if (!profile) {
-      httpResponse(404, 'Profile not found', res);
+      res.status(404).json({ message: 'Profile not found' })
     } else {
       res.status(200).json(profile);
     };
@@ -31,8 +30,13 @@ class ProfilesController {
       about: about,
       telephone: telephone,
     })
-    .then((profile) => httpResponse(200, 'Profile updated successfully', res, profile))
-    .catch(err => httpResponse(400, 'ERROR: Failed. Profile not updated', res, err));
+    .then((profile) => res.status(200).json({ profile })
+    .catch(err =>
+      res.status(400).json({
+        message: 'ERROR: Failed. Profile not updated',
+        error: err.message
+      })
+    ));
   }
 
   static register = async (req, res) => {
@@ -50,12 +54,17 @@ class ProfilesController {
         userId = await users.findOne({ email: email })
         .then(user => checkProfileIdOfUser(user, res))
         .catch(err => {
-          httpResponse(422, 'ERROR: User not found', res, err);
+          res.status(422).json({
+            message: 'ERROR: User not found',
+            error: err.message
+          })
         });
 
       } catch(err) {
-        console.log(err);
-        httpResponse(500, 'ERROR: Server error', res, err);
+        res.status(500).json({
+          message: 'ERROR: Server error',
+          error: err.message
+        })
       };
 
       const profileToSave = new profiles({
@@ -69,7 +78,7 @@ class ProfilesController {
         .then()
         .catch(err => {
           console.log(err);
-          httpResponse(500, 'ERROR: Servidor failed', res, err);
+          res.status(500).json({ message: 'ERROR: Servidor failed', error: err.message});
         });
 
         profiles
@@ -77,16 +86,16 @@ class ProfilesController {
         .then(profile => {
 
           users.findByIdAndUpdate({ _id: userId }, { profileId: profile._id })
-          .then(() => httpResponse(
-            200, 'Profile saved and user updated successfully', res, profile
-          ))
-          .catch(err => httpResponse(
-            400, 'ERROR: User not found to updatetion', res, err
-          ))
-        })
-        .catch(err => httpResponse(
-          400, 'ERROR: Profile created but not found', res, err
+          .then(() => res.status(200).json({profile}))
+          .catch(err =>
+            res.status(400).json({
+              message: 'ERROR: User not found to updatetion',
+              error: err.message})
           )
+        })
+        .catch(err => res.status(400).json({
+          message: 'ERROR: Profile created but not found',
+          error: err.message})
         /** Implementar, posteriormente, nesta linha, dentro do catch, uma funcionalidade para excluir o
          * profile caso ele não seja encontrado para atualizar o campo profileId do usuario e o campo userId
          * do profile. Não quero que ambos existam sem um guardar o id do outro.
@@ -94,7 +103,7 @@ class ProfilesController {
         );
 
       } catch (err) {
-        console.log(err);
+        res.status(400).json({ error: err.message });
       };
   }
 };
@@ -105,12 +114,11 @@ const checkProfileIdOfUser = (user, res) => {
       return user._id;
     };
     default: {
-      return httpResponse(
-        422,
-        'Error: Profile alrealy registered. Your id is: ' + user.profileId +
+      return res.status(422).json({
+        message: 'Error: Profile alrealy registered. Your id is: ' + user.profileId +
         '. Fill in the profileId field correctly before submitting the request to update.',
-        res
-      )
+        error: err.message
+      })
     }
   }
 }

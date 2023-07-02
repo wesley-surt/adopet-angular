@@ -8,10 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog'
 
 @NgModule({
   declarations: [AnimalCardComponent],
-  imports: [
-    CommonModule,
-    MatButtonModule, MatDialogModule
-  ],
+  imports: [ CommonModule, MatButtonModule, MatDialogModule ],
   exports: [AnimalCardComponent]
 })
 export class AnimalCardModule { }

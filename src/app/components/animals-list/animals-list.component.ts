@@ -9,11 +9,9 @@ import { Animal } from 'src/app/entities/animals/animals';
 export class AnimalsListComponent {
 
   @Output() public relayEvent: EventEmitter<Animal> = new EventEmitter();
-  @Input() animals!: Animal[];
+  @Input() public animals!: Animal[];
 
   public relay(animal: Animal) {
-
     this.relayEvent.emit(animal);
-    console.log('Entrei no Animal List')
   }
 }
