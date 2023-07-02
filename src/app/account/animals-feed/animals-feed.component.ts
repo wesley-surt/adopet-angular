@@ -1,12 +1,12 @@
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { AnimalsService } from '../../../entities/animals/animals.service';
 import { LocalityService } from 'src/app/services/locality/locality.service';
 import { Animal } from 'src/app/entities/animals/animals';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SimplifiedState } from 'src/app/services/locality/locality';
 import { AnimalCardDialogComponent } from 'src/app/components/animal-card-dialog/animal-card-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AnimalsService } from 'src/app/entities/animals/animals.service';
 
 @Component({
   selector: 'app-animals-feed',
@@ -72,7 +72,7 @@ export class AnimalsFeedComponent implements OnInit, OnDestroy {
 
   public openDialog(animal: Animal): void {
 
-    // this.router.navigate([`/animals/profile/${animal._id}`])
+    // this.router.navigate(['../profileAnimal'])
 
     this.animal = animal;
     this.dialogRef = this.dialog.open(AnimalCardDialogComponent, {
